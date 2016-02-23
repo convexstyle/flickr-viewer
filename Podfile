@@ -5,6 +5,7 @@ use_frameworks!
 target "FlickrViewer" do
   # Network
   pod 'Alamofire', '~> 3.2.0'
+  pod 'SwiftyJSON', '~> 2.3.2'
 
   # Utility
   pod 'PromiseKit', '~> 3.0.2'
