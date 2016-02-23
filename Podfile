@@ -13,4 +13,5 @@ target "FlickrViewer" do
   # UI
   pod 'SVProgressHUD'
   pod 'FontAwesome.swift', '~> 0.7.0'
+  pod 'SDWebImage', '~> 3.7.5'
 end

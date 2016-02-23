@@ -25,48 +25,32 @@ class FlickrManager {
   func fetchFeed() -> Promise<[FlickrItem]> {
     let defered = Promise<[FlickrItem]>.pendingPromise()
     
-//    let parameters = [
-//      "format": "json",
-//      "nojsoncallback": "1"
-//    ]
-//    
-//    let url = "\(baseURLString)\(Path.PublicFeed.rawValue)"
-//    Alamofire.request(.GET, url, parameters: parameters)
-//      .validate()
-//      .responseString { response in
-//        switch response.result {
-//        case .Success:
-//          guard let jsonString = response.result.value, data = NSString(string: jsonString).dataUsingEncoding(NSUTF8StringEncoding) else {
-//            return
-//          }
-//          
-//          var json = JSON(data: data)
-//          // TODO: - Flickr API returns invalid JSON string
-//          if json == nil {
-//            json = JSON(data: self.fixtureDataFromFile("flickr")!)
-//          }
-//          
-//          guard let items = json["items"].array else {
-//            return
-//          }
-//          
-//          print("items >>> \(items)")
-//          for item in items {
-//            if let m = item["media"]["m"].string {
-//              let pattern = "https://(.*)_m.jpg"
-//              let result = Regexp(pattern).matches(m)
-//              print(result)
-//            }
-//          }
-//          
-//          
-//        case .Failure(let error):
-//          print(error.description)
-//        }
-//      }
+    let parameters = [
+      "format": "json",
+      "nojsoncallback": "1"
+    ]
+
+    let url = "\(baseURLString)\(Path.PublicFeed.rawValue)"
+    Alamofire.request(.GET, url, parameters: parameters)
+      .validate()
+      .responseString { response in
+        switch response.result {
+        case .Success:
+          guard let jsonString = response.result.value, data = NSString(string: jsonString).dataUsingEncoding(NSUTF8StringEncoding) else {
+            return
+          }
+          
+          let flickrItems = self.parseJson(data)
+          
+          defered.fulfill(flickrItems)
+          
+        case .Failure(let error):
+          print(error.description)
+        }
+      }
     
-    let items = parseJson(self.fixtureDataFromFile("flickr")!)
-    defered.fulfill(items)
+//    let items = parseJson(self.fixtureDataFromFile("flickr")!)
+//    defered.fulfill(items)
     
     return defered.promise
   }
@@ -94,8 +78,6 @@ class FlickrManager {
         flickrItems.append(item)
       }
     }
-    
-    print("flickrItems >>> \(flickrItems)")
     
     return flickrItems
   }

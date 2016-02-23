@@ -25,7 +25,7 @@ enum Router: URLRequestConvertible {
   var path: String {
     switch self {
     case .PublicFeed(_):
-      return "feeds/photos_public.gne?format=json&nojsoncallback=1"
+      return "feeds/photos_public.gne"
     }
   }
   
@@ -35,8 +35,9 @@ enum Router: URLRequestConvertible {
     mutableURLRequest.HTTPMethod = method.rawValue
     
     switch self {
-    case .PublicFeed(_):
-      print("mutableURLRequest >>> \(mutableURLRequest.URLString), \(mutableURLRequest.URLRequest)")
+    case .PublicFeed(let parameters):
+      mutableURLRequest.addValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
+      mutableURLRequest.HTTPBody = RouterHelper.generateURLEncodedBody(parameters)
       return mutableURLRequest
     }
   }

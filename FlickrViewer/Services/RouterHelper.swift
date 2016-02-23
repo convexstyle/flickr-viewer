@@ -11,7 +11,7 @@ import UIKit
 class RouterHelper {
 
   class func generateURLEncodedBody(parameters: [String: AnyObject]) -> NSData? {
-    return createQueryStringWithParameters(parameters).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+    return createQueryStringWithParameters(parameters).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
   }
   
   class func createQueryStringWithParameters(parameters: [String: AnyObject]) -> NSString {
