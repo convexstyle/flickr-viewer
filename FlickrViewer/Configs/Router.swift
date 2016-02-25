@@ -6,40 +6,36 @@
 //  Copyright © 2016 convexstyle. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import Alamofire
 
-enum Router: URLRequestConvertible {
-
+enum Router: String {
+  
   static let baseURLString = "https://api.flickr.com/services/"
   
-  case PublicFeed([String: AnyObject])
+  case PublicFeed = "feeds/photos_public.gne"
   
   var method: Alamofire.Method {
     switch self {
-    case .PublicFeed(_):
+    case .PublicFeed:
       return .GET
     }
   }
   
-  var path: String {
+  var parameters: [String: AnyObject]? {
     switch self {
-    case .PublicFeed(_):
-      return "feeds/photos_public.gne"
+    case .PublicFeed:
+      return [
+        "format": "json",
+        "nojsoncallback": "1"
+      ]
     }
   }
   
-  var URLRequest: NSMutableURLRequest {
-    let URL = NSURL(string: Router.baseURLString)!
-    let mutableURLRequest = NSMutableURLRequest(URL: URL.URLByAppendingPathComponent(path))
-    mutableURLRequest.HTTPMethod = method.rawValue
-    
+  var URL: NSURL {
     switch self {
-    case .PublicFeed(let parameters):
-      mutableURLRequest.addValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
-      mutableURLRequest.HTTPBody = RouterHelper.generateURLEncodedBody(parameters)
-      return mutableURLRequest
+    case .PublicFeed:
+      return NSURL(string: Router.baseURLString)!.URLByAppendingPathComponent(self.rawValue)
     }
   }
-  
 }

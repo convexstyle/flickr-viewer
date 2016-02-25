@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6622117B1C7F3709005D60DC /* FlickrJsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6622117A1C7F3709005D60DC /* FlickrJsonParser.swift */; };
+		6646474C1C7F14F00097D20E /* AppErrorEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6646474B1C7F14F00097D20E /* AppErrorEnum.swift */; };
+		6646474E1C7F1C1A0097D20E /* flickr2.json in Resources */ = {isa = PBXBuildFile; fileRef = 6646474D1C7F1C1A0097D20E /* flickr2.json */; };
 		664C6FB91C7C71C900F884AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C6FB81C7C71C900F884AC /* AppDelegate.swift */; };
 		664C6FC01C7C71C900F884AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 664C6FBF1C7C71C900F884AC /* Assets.xcassets */; };
 		664C6FC31C7C71C900F884AC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 664C6FC11C7C71C900F884AC /* LaunchScreen.storyboard */; };
@@ -18,9 +21,7 @@
 		664C6FF11C7C7BBF00F884AC /* UIView+AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C6FF01C7C7BBF00F884AC /* UIView+AutoLayout.swift */; };
 		664C6FF31C7C82CA00F884AC /* FlickrManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C6FF21C7C82CA00F884AC /* FlickrManager.swift */; };
 		664C6FF61C7C836D00F884AC /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C6FF51C7C836D00F884AC /* Router.swift */; };
-		664C6FF91C7C922700F884AC /* RouterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C6FF81C7C922700F884AC /* RouterHelper.swift */; };
 		664C6FFD1C7C9F0100F884AC /* flickr.json in Resources */ = {isa = PBXBuildFile; fileRef = 664C6FFC1C7C9F0100F884AC /* flickr.json */; };
-		664C70011C7CAFDC00F884AC /* RegExp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C70001C7CAFDC00F884AC /* RegExp.swift */; };
 		664C70031C7CBE9100F884AC /* PhotoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C70021C7CBE9100F884AC /* PhotoItem.swift */; };
 		664C70061C7D18A800F884AC /* ImageCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C70051C7D18A800F884AC /* ImageCollectionViewFlowLayout.swift */; };
 		664C70081C7D1AC000F884AC /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C70071C7D1AC000F884AC /* ImageCollectionViewCell.swift */; };
@@ -51,6 +52,9 @@
 
 /* Begin PBXFileReference section */
 		180C6D602961F0CC94CA0515 /* Pods-FlickrViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickrViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlickrViewer/Pods-FlickrViewer.release.xcconfig"; sourceTree = "<group>"; };
+		6622117A1C7F3709005D60DC /* FlickrJsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlickrJsonParser.swift; path = Services/FlickrJsonParser.swift; sourceTree = "<group>"; };
+		6646474B1C7F14F00097D20E /* AppErrorEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppErrorEnum.swift; path = Configs/AppErrorEnum.swift; sourceTree = "<group>"; };
+		6646474D1C7F1C1A0097D20E /* flickr2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = flickr2.json; path = Resources/Fixtures/flickr2.json; sourceTree = "<group>"; };
 		664C6FB51C7C71C900F884AC /* FlickrViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		664C6FB81C7C71C900F884AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		664C6FBF1C7C71C900F884AC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,9 +72,7 @@
 		664C6FF01C7C7BBF00F884AC /* UIView+AutoLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIView+AutoLayout.swift"; path = "Extension/UIView+AutoLayout.swift"; sourceTree = "<group>"; };
 		664C6FF21C7C82CA00F884AC /* FlickrManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlickrManager.swift; path = Services/FlickrManager.swift; sourceTree = "<group>"; };
 		664C6FF51C7C836D00F884AC /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Router.swift; path = Configs/Router.swift; sourceTree = "<group>"; };
-		664C6FF81C7C922700F884AC /* RouterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RouterHelper.swift; path = Services/RouterHelper.swift; sourceTree = "<group>"; };
 		664C6FFC1C7C9F0100F884AC /* flickr.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = flickr.json; path = Resources/Fixtures/flickr.json; sourceTree = "<group>"; };
-		664C70001C7CAFDC00F884AC /* RegExp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegExp.swift; path = Services/RegExp.swift; sourceTree = "<group>"; };
 		664C70021C7CBE9100F884AC /* PhotoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoItem.swift; path = Models/PhotoItem.swift; sourceTree = "<group>"; };
 		664C70051C7D18A800F884AC /* ImageCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCollectionViewFlowLayout.swift; path = Views/ImageCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		664C70071C7D1AC000F884AC /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCollectionViewCell.swift; path = Views/ImageCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -223,8 +225,9 @@
 		664C6FF41C7C835900F884AC /* Configs */ = {
 			isa = PBXGroup;
 			children = (
-				664C6FF51C7C836D00F884AC /* Router.swift */,
 				664C70161C7D312D00F884AC /* AppData.swift */,
+				6646474B1C7F14F00097D20E /* AppErrorEnum.swift */,
+				664C6FF51C7C836D00F884AC /* Router.swift */,
 			);
 			name = Configs;
 			sourceTree = "<group>";
@@ -232,9 +235,8 @@
 		664C6FF71C7C920900F884AC /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				6622117A1C7F3709005D60DC /* FlickrJsonParser.swift */,
 				664C6FF21C7C82CA00F884AC /* FlickrManager.swift */,
-				664C6FF81C7C922700F884AC /* RouterHelper.swift */,
-				664C70001C7CAFDC00F884AC /* RegExp.swift */,
 				664C700B1C7D28E300F884AC /* ThumbnailManager.swift */,
 			);
 			name = Services;
@@ -254,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				664C6FFC1C7C9F0100F884AC /* flickr.json */,
+				6646474D1C7F1C1A0097D20E /* flickr2.json */,
 			);
 			name = Fixtures;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				664C70141C7D30E200F884AC /* App.strings in Resources */,
 				664C70111C7D305E00F884AC /* FontAwesome.otf in Resources */,
 				664C6FC01C7C71C900F884AC /* Assets.xcassets in Resources */,
+				6646474E1C7F1C1A0097D20E /* flickr2.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,8 +473,8 @@
 			files = (
 				664C6FF11C7C7BBF00F884AC /* UIView+AutoLayout.swift in Sources */,
 				664C70031C7CBE9100F884AC /* PhotoItem.swift in Sources */,
+				6622117B1C7F3709005D60DC /* FlickrJsonParser.swift in Sources */,
 				664C6FB91C7C71C900F884AC /* AppDelegate.swift in Sources */,
-				664C70011C7CAFDC00F884AC /* RegExp.swift in Sources */,
 				664C6FEB1C7C7AA900F884AC /* MainView.swift in Sources */,
 				664C6FF61C7C836D00F884AC /* Router.swift in Sources */,
 				664C70081C7D1AC000F884AC /* ImageCollectionViewCell.swift in Sources */,
@@ -479,7 +483,7 @@
 				664C700A1C7D276000F884AC /* ThumbnailCollectionViewCell.swift in Sources */,
 				664C700C1C7D28E300F884AC /* ThumbnailManager.swift in Sources */,
 				664C70061C7D18A800F884AC /* ImageCollectionViewFlowLayout.swift in Sources */,
-				664C6FF91C7C922700F884AC /* RouterHelper.swift in Sources */,
+				6646474C1C7F14F00097D20E /* AppErrorEnum.swift in Sources */,
 				664C6FE81C7C7A7A00F884AC /* MainViewController.swift in Sources */,
 				664C70171C7D312D00F884AC /* AppData.swift in Sources */,
 			);

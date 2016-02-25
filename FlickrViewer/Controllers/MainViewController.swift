@@ -124,6 +124,12 @@ class MainViewController: UIViewController {
       
       self.selectImageItemAtIndexPath(self.initIndexPath, animated: false)
       self.selectThumbnailItemAtIndexPath(self.initIndexPath, animated: false)
+      }.error { error -> Void in
+        if let error = error as? FlickrError {
+          print("error >>> \(error.description)")
+        } else {
+          print("error default")
+        }
     }
   }
   
@@ -161,15 +167,32 @@ class MainViewController: UIViewController {
 //      let thumbnailsTargetX = size.width/4 * CGFloat(min(currentIndexPath.item, 16))
 //      mainView.navCollectionView.setContentOffset(CGPoint(x: thumbnailsTargetX, y: 0), animated: false)
     }
+    
+    print("mainView.imageCollectionView.frame.size.width 1 ---> \(mainView.imageCollectionView.frame.size.width)")
+    mainView.layoutIfNeeded()
+    mainView.imageCollectionView.layoutIfNeeded()
+    mainView.imageCollectionView.collectionViewLayout.invalidateLayout()
+    mainView.imageCollectionView.setContentOffset(CGPoint(x: mainView.imageCollectionView.frame.size.width * CGFloat(currentIndexPath.item), y: 0), animated: false)
+  }
+  
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    
+    print("mainView.imageCollectionView.frame.size.width 3 ---> \(mainView.imageCollectionView.frame.size.width)")
+    
+    mainView.layoutIfNeeded()
+    mainView.imageCollectionView.setContentOffset(CGPoint(x: mainView.imageCollectionView.frame.size.width * CGFloat(currentIndexPath.item), y: 0), animated: false)
   }
   
   override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
     
-    if traitCollection != previousTraitCollection {      
+    if traitCollection != previousTraitCollection {
       mainView.imageCollectionView.collectionViewLayout.invalidateLayout()
       mainView.navCollectionView.collectionViewLayout.invalidateLayout()
     }
+    
+    print("mainView.imageCollectionView.frame.size.width 2 ---> \(mainView.imageCollectionView.frame.size.width)")
   }
   
 }
