@@ -15,3 +15,12 @@ target "FlickrViewer" do
   pod 'FontAwesome.swift', '~> 0.7.0'
   pod 'SDWebImage', '~> 3.7.5'
 end
+
+target "FlickrViewerTests" do
+  pod 'Mockingjay', '~> 1.1.1'
+  pod 'Nimble', '~> 3.1.0'
+  pod 'Quick', '~> 0.9.1'
+end
+
+target "FlickrViewerUITests" do
+end
