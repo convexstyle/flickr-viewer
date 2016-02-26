@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import UIColor_Hex_Swift
+import SVProgressHUD
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -17,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
     window = UIWindow(frame: UIScreen.mainScreen().bounds)
+    
+    setAppearance()
     
     let mainViewController     = MainViewController()
     let navigationController   = UINavigationController(rootViewController: mainViewController)
@@ -49,5 +53,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   }
 
 
+}
+
+// MARK: - Appearance
+extension AppDelegate {
+  func setAppearance() {
+    setNavigationBarAppearance()
+    setSVProgressHUD()
+  }
+
+  // MARK: - Set the appearance of NavigationBar
+  func setNavigationBarAppearance() {
+    let appearance = UINavigationBar.appearance()
+    appearance.tintColor = UIColor.whiteColor()
+    appearance.barTintColor = UIColor(rgba: "#3466b0")
+    appearance.titleTextAttributes = [
+      NSForegroundColorAttributeName: UIColor.whiteColor()
+    ]
+  }
+  
+   // MARK - Set the appearance of SVProgressHUD
+  func setSVProgressHUD() {
+    SVProgressHUD.setDefaultMaskType(.Clear)
+    SVProgressHUD.setBackgroundColor(UIColor(rgba: "#3466b0"))
+    SVProgressHUD.setForegroundColor(UIColor.whiteColor())
+  }
+  
 }
 

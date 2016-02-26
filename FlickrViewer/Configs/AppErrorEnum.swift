@@ -10,7 +10,8 @@ import Foundation
 
 enum FlickrError: ErrorType {
   case LoadError
-  case JsonSyntaxError
+  case JsonError
+  case NoDataError
   case SystemError(NSError)
   
   var description: String {
@@ -18,8 +19,11 @@ enum FlickrError: ErrorType {
     case .LoadError:
       return "Load error"
       
-    case .JsonSyntaxError:
+    case .JsonError:
       return "Json syntax error"
+      
+    case .NoDataError:
+      return ""
     
     case .SystemError(let error):
       return error.localizedDescription

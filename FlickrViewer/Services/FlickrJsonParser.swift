@@ -21,8 +21,12 @@ class FlickrJsonParser {
     }
     
     flickrItems = [FlickrItem]()
+    
     for item in items {
-      if let mediumImageURL = item["media"]["m"].string {
+      let link = item["link"].string
+      let mediumImageURL = item["media"]["m"].string
+      
+      if let mediumImageURL = mediumImageURL {
         let slugImageURL = FlickrJsonParser.getSlugImagePath(mediumImageURL)
         
         var item = FlickrItem()
@@ -30,9 +34,11 @@ class FlickrJsonParser {
         item.mediumImage = mediumImageURL
         item.thumbnailImage = "\(slugImageURL)_t.jpg"
         item.smallImage = "\(slugImageURL)_s.jpg"
+        item.link = link
         
         flickrItems?.append(item)
       }
+      
     }
     
     return flickrItems

@@ -37,9 +37,12 @@ class MainView: UIView {
 
 extension MainView: Constrainable {
   func initViews() {
-    backgroundColor = UIColor.whiteColor()
+    backgroundColor = .appDarkGreyColor()
     
+    imageCollectionView.backgroundColor = .appDarkGreyColor()
     addSubview(imageCollectionView)
+    
+    navCollectionView.backgroundColor = .appBlueColor()
     addSubview(navCollectionView)
   }
   
@@ -58,7 +61,7 @@ extension MainView: Constrainable {
       "|[nav]|": [],
       "V:|[imageCollection][nav(navHeight)]|": []
     ]
-    
+
     activateConstraints(subviewsConstraints, withViews: subviews, metrics: metrics)
   }
 }

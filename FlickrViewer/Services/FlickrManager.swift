@@ -34,13 +34,19 @@ class FlickrManager {
             return
           }
           
-          let flickrItems = FlickrJsonParser.parseJson(data)
-          if let flickrItems = flickrItems {
-            defered.fulfill(flickrItems)
-          } else {
-            print("\(Router.PublicFeed.URL.absoluteString)?\(FlickrJsonParser.createQueryStringWithParameters(Router.PublicFeed.parameters)) returns wrong json format from Flickr.")
-            defered.reject(FlickrError.JsonSyntaxError)
+          guard let flickrItems = FlickrJsonParser.parseJson(data) else {
+            print("\(Router.PublicFeed.URL.absoluteString)?\(FlickrJsonParser.createQueryStringWithParameters(Router.PublicFeed.parameters)) returns wrong json format.")
+            defered.reject(FlickrError.JsonError)
+            return
           }
+          
+          if flickrItems.count == 0 {
+            print("\(Router.PublicFeed.URL.absoluteString)?\(FlickrJsonParser.createQueryStringWithParameters(Router.PublicFeed.parameters)) returns no items.")
+            defered.reject(FlickrError.NoDataError)
+            return
+          }
+          
+          defered.fulfill(flickrItems)
           
         case .Failure(let error):
           defered.reject(error)

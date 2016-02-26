@@ -9,8 +9,9 @@ target "FlickrViewer" do
 
   # Utility
   pod 'PromiseKit', '~> 3.0.2'
+  pod 'UIColor_Hex_Swift', '~> 1.9'
 
-  # UI
+  # View
   pod 'SVProgressHUD'
   pod 'FontAwesome.swift', '~> 0.7.0'
   pod 'SDWebImage', '~> 3.7.5'

@@ -13,4 +13,5 @@ struct FlickrItem {
   var mediumImage: String?
   var smallImage: String?
   var thumbnailImage: String?
+  var link: String?
 }

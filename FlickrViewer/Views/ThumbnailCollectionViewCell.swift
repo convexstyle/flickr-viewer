@@ -7,19 +7,32 @@
 //
 
 import UIKit
+import FontAwesome_swift
 
 class ThumbnailCollectionViewCell: UICollectionViewCell {
   
   let imageView: UIImageView
   let borderView: UIView
+  let iconLabel: UILabel
   
   var imagePath: String? {
     didSet {
       if let imagePath = imagePath {
-        // TODO: - Animation, cache, placeholder image
+        self.imageView.image = nil
+        self.imageView.alpha = 0
+        
+        // Animation and reset layout
         imageView.sd_setImageWithURL(NSURL(string: imagePath)!, completed: { (image, _, _, _) in
           self.imageView.image = image
           self.setNeedsLayout()
+          
+          UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: {
+            self.imageView.alpha = 1
+          }, completion: { (success) in
+              if success {
+                
+              }
+          })
         })
       }
     }
@@ -27,6 +40,7 @@ class ThumbnailCollectionViewCell: UICollectionViewCell {
   
   override var selected: Bool {
     didSet {
+      iconLabel.hidden = selected != true
       borderView.hidden = selected != true
     }
   }
@@ -39,6 +53,7 @@ class ThumbnailCollectionViewCell: UICollectionViewCell {
   override init(frame: CGRect) {
     imageView = UIImageView()
     borderView = UIView()
+    iconLabel = UILabel()
     
     super.init(frame: frame)
     
@@ -55,15 +70,22 @@ extension ThumbnailCollectionViewCell: Constrainable {
     contentView.addSubview(imageView)
     
     borderView.hidden = true
-    borderView.layer.borderColor = UIColor.redColor().CGColor
-    borderView.layer.borderWidth = 3
+    borderView.layer.borderColor = UIColor.appBlueColor().CGColor
+    borderView.layer.borderWidth = 6
     contentView.addSubview(borderView)
+    
+    iconLabel.hidden = true
+    iconLabel.textColor = .whiteColor()
+    iconLabel.font = .fontAwesomeOfSize(35)
+    iconLabel.text = String.fontAwesomeIconWithName(.Eye)
+    addSubview(iconLabel)
   }
   
   func initConstraints() {
     let subviews = [
       "image": imageView,
-      "border": borderView
+      "border": borderView,
+      "icon": iconLabel,
     ]
     
     let subviewsConstraints: [String: NSLayoutFormatOptions] = [
@@ -74,5 +96,12 @@ extension ThumbnailCollectionViewCell: Constrainable {
     ]
     
     activateConstraints(subviewsConstraints, withViews: subviews, metrics: nil)
+    activateConstraints(
+      [
+        NSLayoutConstraint(item: iconLabel, attribute: .Right, relatedBy: .Equal, toItem: contentView, attribute: .Right, multiplier: 1, constant: -10),
+        NSLayoutConstraint(item: iconLabel, attribute: .Bottom, relatedBy: .Equal, toItem: contentView, attribute: .Bottom, multiplier: 1, constant: -5)
+      ]
+    )
+    
   }
 }

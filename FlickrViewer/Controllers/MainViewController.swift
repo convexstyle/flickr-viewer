@@ -8,6 +8,7 @@
 
 import UIKit
 import FontAwesome_swift
+import SVProgressHUD
 
 class MainViewController: UIViewController {
   
@@ -26,9 +27,6 @@ class MainViewController: UIViewController {
     didSet {
       mainView.imageCollectionView.reloadData()
     }
-  }
-  var dataSourceReady: Bool {
-    return items.count > 0
   }
   
   lazy var mainView: MainView = MainView()
@@ -67,7 +65,6 @@ class MainViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-   
     // Layout Stype
 //    edgesForExtendedLayout = UIRectEdge.None
     
@@ -79,7 +76,7 @@ class MainViewController: UIViewController {
     refreshButton.action = "refreshButtonTouchUpInside:"
     let attributes = [
       NSFontAttributeName: UIFont.fontAwesomeOfSize(20),
-      NSForegroundColorAttributeName: UIColor.blackColor()
+      NSForegroundColorAttributeName: UIColor.whiteColor()
     ] as Dictionary!
     refreshButton.setTitleTextAttributes(attributes, forState: UIControlState.Normal)
     refreshButton.title = String.fontAwesomeIconWithName(FontAwesome.Refresh)
@@ -117,20 +114,27 @@ class MainViewController: UIViewController {
   
   // MARK: - Load feed
   func fetchFeed() {
-    // TODO: - Error and HUD
+    
+    SVProgressHUD.show()
+    
     flickrManager.fetchFeed().then { items -> Void in
       self.items = items
       self.thumbnailManager.items = items
       
       self.selectImageItemAtIndexPath(self.initIndexPath, animated: false)
       self.selectThumbnailItemAtIndexPath(self.initIndexPath, animated: false)
+      
+      }.always { _ -> Void in
+        SVProgressHUD.dismiss()
+        
       }.error { error -> Void in
         if let error = error as? FlickrError {
           print("error >>> \(error.description)")
         } else {
           print("error default")
         }
-    }
+        
+      }
   }
   
   
@@ -154,25 +158,6 @@ class MainViewController: UIViewController {
   // MARK: - Orientation
   override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
     super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-    
-    if dataSourceReady {
-//      mainView.imageCollectionView.performBatchUpdates(nil, completion: nil)
-//      mainView.imageCollectionView.setContentOffset(CGPoint(x: size.width * CGFloat(currentIndexPath.item), y: 0), animated: false)
-//      for cell in mainView.imageCollectionView.visibleCells() {
-//        if let cell = cell as? ImageCollectionViewCell {
-//          cell.imageView.contentMode = UIViewContentMode.ScaleAspectFit
-//        }
-//      }
-      
-//      let thumbnailsTargetX = size.width/4 * CGFloat(min(currentIndexPath.item, 16))
-//      mainView.navCollectionView.setContentOffset(CGPoint(x: thumbnailsTargetX, y: 0), animated: false)
-    }
-    
-    print("mainView.imageCollectionView.frame.size.width 1 ---> \(mainView.imageCollectionView.frame.size.width)")
-    mainView.layoutIfNeeded()
-    mainView.imageCollectionView.layoutIfNeeded()
-    mainView.imageCollectionView.collectionViewLayout.invalidateLayout()
-    mainView.imageCollectionView.setContentOffset(CGPoint(x: mainView.imageCollectionView.frame.size.width * CGFloat(currentIndexPath.item), y: 0), animated: false)
   }
   
   override func viewDidLayoutSubviews() {
