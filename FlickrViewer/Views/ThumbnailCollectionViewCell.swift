@@ -13,7 +13,6 @@ class ThumbnailCollectionViewCell: UICollectionViewCell {
   
   let imageView: UIImageView
   let borderView: UIView
-  let iconLabel: UILabel
   
   var imagePath: String? {
     didSet {
@@ -40,7 +39,6 @@ class ThumbnailCollectionViewCell: UICollectionViewCell {
   
   override var selected: Bool {
     didSet {
-      iconLabel.hidden = selected != true
       borderView.hidden = selected != true
     }
   }
@@ -53,7 +51,6 @@ class ThumbnailCollectionViewCell: UICollectionViewCell {
   override init(frame: CGRect) {
     imageView = UIImageView()
     borderView = UIView()
-    iconLabel = UILabel()
     
     super.init(frame: frame)
     
@@ -61,45 +58,66 @@ class ThumbnailCollectionViewCell: UICollectionViewCell {
     initConstraints()
   }
   
+  // MARK: - Override UIView methods
+  override func drawRect(rect: CGRect) {
+    super.drawRect(rect)
+    
+    UIBezierPath.drawLine(
+      1,
+      lineCap: .Square,
+      strokeColor: UIColor.appLightBlueColor(),
+      startPoint: CGPoint(x: rect.minX + 0.5, y: rect.minY),
+      endPoint: CGPoint(x: rect.minX + 0.5, y: rect.maxY)
+    )
+    
+    UIBezierPath.drawLine(
+      1,
+      lineCap: .Square,
+      strokeColor: UIColor.appLightBlueColor(),
+      startPoint: CGPoint(x: rect.midX, y: rect.midY - 5),
+      endPoint: CGPoint(x: rect.midX, y: rect.midY + 5)
+    )
+    
+    UIBezierPath.drawLine(
+      1,
+      lineCap: .Square,
+      strokeColor: UIColor.appLightBlueColor(),
+      startPoint: CGPoint(x: rect.midX - 5, y: rect.midY),
+      endPoint: CGPoint(x: rect.midX + 5, y: rect.midY)
+    )
+  }
 }
 
 extension ThumbnailCollectionViewCell: Constrainable {
   func initViews() {
+    backgroundColor = .clearColor()
+    
     imageView.clipsToBounds = true
     imageView.contentMode = .ScaleAspectFill
     contentView.addSubview(imageView)
     
     borderView.hidden = true
-    borderView.layer.borderColor = UIColor.appBlueColor().CGColor
-    borderView.layer.borderWidth = 6
+    borderView.backgroundColor = .appPinkColor()
     contentView.addSubview(borderView)
-    
-    iconLabel.hidden = true
-    iconLabel.textColor = .whiteColor()
-    iconLabel.font = .fontAwesomeOfSize(35)
-    iconLabel.text = String.fontAwesomeIconWithName(.Eye)
-    addSubview(iconLabel)
   }
   
   func initConstraints() {
     let subviews = [
       "image": imageView,
-      "border": borderView,
-      "icon": iconLabel,
+      "border": borderView
     ]
     
     let subviewsConstraints: [String: NSLayoutFormatOptions] = [
       "|[image]|": [],
       "|[border]|": [],
-      "V:|[image]|": [],
-      "V:|[border]|": []
+      "V:|[image]|": []
     ]
     
     activateConstraints(subviewsConstraints, withViews: subviews, metrics: nil)
     activateConstraints(
       [
-        NSLayoutConstraint(item: iconLabel, attribute: .Right, relatedBy: .Equal, toItem: contentView, attribute: .Right, multiplier: 1, constant: -10),
-        NSLayoutConstraint(item: iconLabel, attribute: .Bottom, relatedBy: .Equal, toItem: contentView, attribute: .Bottom, multiplier: 1, constant: -5)
+        NSLayoutConstraint(item: borderView, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1, constant: 0),
+        NSLayoutConstraint(item: borderView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 5)
       ]
     )
     

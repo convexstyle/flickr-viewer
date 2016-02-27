@@ -26,10 +26,18 @@ class FlickrManager {
     Alamofire.request(.GET, Router.PublicFeed.URL, parameters: Router.PublicFeed.parameters)
       .validate()
       .responseString { response in
+        
         switch response.result {
         case .Success:
-          guard let jsonString = response.result.value, data = NSString(string: jsonString).dataUsingEncoding(NSUTF8StringEncoding) else {
+          guard var jsonString = response.result.value else {
             // TODO: - If json is nil, it is usually because of the incorrect format json from Flickr. This is the fallback to load local fixture json file.
+            defered.reject(FlickrError.LoadError)
+            return
+          }
+          
+          jsonString = jsonString.stringByReplacingOccurrencesOfString("\\'", withString: "'")
+          
+          guard let data = NSString(string: jsonString).dataUsingEncoding(NSUTF8StringEncoding) else {
             defered.reject(FlickrError.LoadError)
             return
           }

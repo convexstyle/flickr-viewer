@@ -19,7 +19,11 @@ extension UIColor {
   }
   
   class func appBlueColor() -> UIColor {
-    return UIColor(rgba: "#3466b0")
+    return UIColor(rgba: "#2c5ea7")
+  }
+  
+  class func appLightBlueColor() -> UIColor {
+    return UIColor(rgba: "#386dbc")
   }
   
   class func appPinkColor() -> UIColor {

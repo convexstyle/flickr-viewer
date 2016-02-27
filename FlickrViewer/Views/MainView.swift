@@ -11,6 +11,7 @@ import UIKit
 class MainView: UIView {
   
   let imageCollectionView: UICollectionView
+  let borderView: UIView
   let navCollectionView: UICollectionView
   
   // MARK: - Life cycle
@@ -19,9 +20,11 @@ class MainView: UIView {
   }
   
   override init(frame: CGRect) {
-    let imageLayout = ImageCollectionViewFlowLayout()
+    let imageLayout = UICollectionViewFlowLayout()
     imageLayout.scrollDirection = .Horizontal
     imageCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: imageLayout)
+    
+    borderView = UIView()
     
     let navLayout = UICollectionViewFlowLayout()
     navLayout.scrollDirection = .Horizontal
@@ -39,6 +42,9 @@ extension MainView: Constrainable {
   func initViews() {
     backgroundColor = .appDarkGreyColor()
     
+    borderView.backgroundColor = .appLightBlueColor()
+    addSubview(borderView)
+    
     imageCollectionView.backgroundColor = .appDarkGreyColor()
     addSubview(imageCollectionView)
     
@@ -48,18 +54,21 @@ extension MainView: Constrainable {
   
   func initConstraints() {
     let metrics = [
-      "navHeight": 100
+      "navHeight": 100,
+      "borderHeight": 8
     ]
     
     let subviews = [
       "imageCollection": imageCollectionView,
+      "border": borderView,
       "nav": navCollectionView
     ]
     
     let subviewsConstraints: [String: NSLayoutFormatOptions] = [
       "|[imageCollection]|": [],
+      "|[border]|": [],
       "|[nav]|": [],
-      "V:|[imageCollection][nav(navHeight)]|": []
+      "V:|[imageCollection][border(borderHeight)][nav(navHeight)]|": []
     ]
 
     activateConstraints(subviewsConstraints, withViews: subviews, metrics: metrics)
