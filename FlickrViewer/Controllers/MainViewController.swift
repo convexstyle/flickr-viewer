@@ -30,6 +30,10 @@ class MainViewController: UIViewController {
     }
   }
   
+  var dataSourceReady: Bool {
+    return items.count > 0
+  }
+  
   lazy var unknownError: String = NSLocalizedString("unknownError", tableName: "App", comment: "Unknown Error")
   lazy var mainView: MainView = MainView()
   lazy var flickrManager: FlickrManager = FlickrManager.sharedInstance
@@ -172,8 +176,11 @@ class MainViewController: UIViewController {
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
-    mainView.layoutIfNeeded()
-    mainView.imageCollectionView.setContentOffset(CGPoint(x: mainView.imageCollectionView.frame.size.width * CGFloat(currentIndexPath.item), y: 0), animated: false)
+    if dataSourceReady {
+      mainView.layoutIfNeeded()
+      imageCollectionView.selectItemAtIndexPath(currentIndexPath, animated: false, scrollPosition: UICollectionViewScrollPosition.Left)
+      thumbnailCollectionView.selectItemAtIndexPath(currentIndexPath, animated: false, scrollPosition: UICollectionViewScrollPosition.Left)
+    }
   }
   
   override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
@@ -233,6 +240,7 @@ extension MainViewController: UICollectionViewDataSource {
   }
   
   private func configureImageCollectionViewCellWithItem(cell: ImageCollectionViewCell, item: FlickrItem) {
+    cell.setNeedsDisplay()
     cell.imagePath = item.originalImage
   }
 }
