@@ -135,9 +135,13 @@ class MainViewController: UIViewController {
   // MARK: - Open SFsafariViewController to show a current Flickr page
   func externalLinkButtonTouchUpInside(sender: UIButton) {
     if let link = items[currentIndexPath.item].link, url = NSURL(string: link) {
+      // Update statusBarStyle
+      UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+      
       let safariViewController = SFSafariViewController(URL: url)
       safariViewController.modalTransitionStyle = .CoverVertical
       safariViewController.modalPresentationStyle = .OverFullScreen
+      safariViewController.delegate = self
       self.presentViewController(safariViewController, animated: true, completion: nil)
     }
   }
@@ -228,6 +232,15 @@ extension MainViewController: ThumbnailManagerDelegate {
   func cellDidSelect(sender: ThumbnailManager, path: NSIndexPath) {
     selectImageItemAtIndexPath(path)
     selectThumbnailItemAtIndexPath(path)
+  }
+}
+
+
+// MARK: - SFSafariViewControllerDelegate
+extension MainViewController: SFSafariViewControllerDelegate {
+  func safariViewControllerDidFinish(controller: SFSafariViewController) {
+    // Update statusBarStyle
+    UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
   }
 }
 

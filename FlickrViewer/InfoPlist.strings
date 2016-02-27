@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  FlickrViewer
+
+  Created by Hiroshi Tazawa on 28/02/2016.
+  Copyright © 2016 convexstyle. All rights reserved.
+*/
+
+CFBundleDisplayName = "Flickr Viewer";

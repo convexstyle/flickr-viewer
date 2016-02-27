@@ -38,6 +38,7 @@
 		669A147D1C81DDF800B867B5 /* AppFontSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A147C1C81DDF800B867B5 /* AppFontSize.swift */; };
 		669A147F1C81DE6F00B867B5 /* UIFont+AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A147E1C81DE6F00B867B5 /* UIFont+AppFont.swift */; };
 		669A14811C81E56200B867B5 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 669A14801C81E56200B867B5 /* SafariServices.framework */; };
+		669A14851C81EF5900B867B5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 669A14841C81EF5900B867B5 /* InfoPlist.strings */; };
 		A90788DB7BF610BF9D5ED649 /* Pods_FlickrViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D1756E832BF8CFF37BDAB5 /* Pods_FlickrViewer.framework */; };
 /* End PBXBuildFile section */
 
@@ -97,6 +98,7 @@
 		669A147C1C81DDF800B867B5 /* AppFontSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppFontSize.swift; path = Configs/AppFontSize.swift; sourceTree = "<group>"; };
 		669A147E1C81DE6F00B867B5 /* UIFont+AppFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+AppFont.swift"; path = "Extension/UIFont+AppFont.swift"; sourceTree = "<group>"; };
 		669A14801C81E56200B867B5 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		669A14841C81EF5900B867B5 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		90D1756E832BF8CFF37BDAB5 /* Pods_FlickrViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlickrViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD2ACD2C72F1ED2A159F6953 /* Pods-FlickrViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickrViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlickrViewer/Pods-FlickrViewer.debug.xcconfig"; sourceTree = "<group>"; };
 		D3A1B0B1C2A1ECD5026AEAE6 /* Pods_FlickrViewerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlickrViewerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -183,6 +185,7 @@
 				664C6FE61C7C7A4E00F884AC /* Controllers */,
 				664C6FEF1C7C7B8000F884AC /* Extensions */,
 				664C6FC41C7C71C900F884AC /* Info.plist */,
+				669A14841C81EF5900B867B5 /* InfoPlist.strings */,
 				664C6FC11C7C71C900F884AC /* LaunchScreen.storyboard */,
 				664C70041C7CBECF00F884AC /* Models */,
 				664C6FFA1C7C9E6600F884AC /* Resources */,
@@ -435,6 +438,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				664C6FFD1C7C9F0100F884AC /* flickr.json in Resources */,
+				669A14851C81EF5900B867B5 /* InfoPlist.strings in Resources */,
 				669A14791C81CDD400B867B5 /* TSMessagesDefaultDesign.json in Resources */,
 				664C6FC31C7C71C900F884AC /* LaunchScreen.storyboard in Resources */,
 				664C70141C7D30E200F884AC /* App.strings in Resources */,
