@@ -14,6 +14,10 @@ extension UIColor {
     return UIColor(rgba: "#ebebeb")
   }
   
+  class func appMidGreyColor() -> UIColor {
+    return UIColor(rgba: "#41475b")
+  }
+  
   class func appDarkGreyColor() -> UIColor {
     return UIColor(rgba: "#242b40")
   }

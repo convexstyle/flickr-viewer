@@ -1,5 +1,5 @@
 //
-//  AppErrorEnum.swift
+//  AppError.swift
 //  FlickrViewer
 //
 //  Created by Hiroshi Tazawa on 25/02/2016.

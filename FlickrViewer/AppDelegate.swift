@@ -69,7 +69,7 @@ extension AppDelegate {
     appearance.barTintColor = UIColor(rgba: "#3466b0")
     appearance.titleTextAttributes = [
       NSForegroundColorAttributeName: UIColor.whiteColor(),
-      NSFontAttributeName: UIFont(name: "HelveticaNeue-Bold", size: 16)!
+      NSFontAttributeName: UIFont.appBoldFontOfSize(AppFontSize.Normal.rawValue)!
     ]
   }
   

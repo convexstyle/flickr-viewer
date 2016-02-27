@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1179E8D6D7FB165B429178D1 /* Pods_FlickrViewerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3A1B0B1C2A1ECD5026AEAE6 /* Pods_FlickrViewerTests.framework */; };
 		6622117B1C7F3709005D60DC /* FlickrJsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6622117A1C7F3709005D60DC /* FlickrJsonParser.swift */; };
-		6646474C1C7F14F00097D20E /* AppErrorEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6646474B1C7F14F00097D20E /* AppErrorEnum.swift */; };
+		6646474C1C7F14F00097D20E /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6646474B1C7F14F00097D20E /* AppError.swift */; };
 		6646474E1C7F1C1A0097D20E /* flickr2.json in Resources */ = {isa = PBXBuildFile; fileRef = 6646474D1C7F1C1A0097D20E /* flickr2.json */; };
 		664C6FB91C7C71C900F884AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C6FB81C7C71C900F884AC /* AppDelegate.swift */; };
 		664C6FC01C7C71C900F884AC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 664C6FBF1C7C71C900F884AC /* Assets.xcassets */; };
@@ -34,6 +34,10 @@
 		669A14741C80A4CF00B867B5 /* UIBezierPath+Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A14731C80A4CF00B867B5 /* UIBezierPath+Shape.swift */; };
 		669A14761C81C29A00B867B5 /* UIFont+Snippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A14751C81C29A00B867B5 /* UIFont+Snippet.swift */; };
 		669A14791C81CDD400B867B5 /* TSMessagesDefaultDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = 669A14781C81CDD400B867B5 /* TSMessagesDefaultDesign.json */; };
+		669A147B1C81DD4600B867B5 /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A147A1C81DD4600B867B5 /* AppFont.swift */; };
+		669A147D1C81DDF800B867B5 /* AppFontSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A147C1C81DDF800B867B5 /* AppFontSize.swift */; };
+		669A147F1C81DE6F00B867B5 /* UIFont+AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A147E1C81DE6F00B867B5 /* UIFont+AppFont.swift */; };
+		669A14811C81E56200B867B5 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 669A14801C81E56200B867B5 /* SafariServices.framework */; };
 		A90788DB7BF610BF9D5ED649 /* Pods_FlickrViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D1756E832BF8CFF37BDAB5 /* Pods_FlickrViewer.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,7 +62,7 @@
 		180C6D602961F0CC94CA0515 /* Pods-FlickrViewer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickrViewer.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlickrViewer/Pods-FlickrViewer.release.xcconfig"; sourceTree = "<group>"; };
 		36502C1348F28162379911D2 /* Pods-FlickrViewerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickrViewerTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlickrViewerTests/Pods-FlickrViewerTests.release.xcconfig"; sourceTree = "<group>"; };
 		6622117A1C7F3709005D60DC /* FlickrJsonParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlickrJsonParser.swift; path = Services/FlickrJsonParser.swift; sourceTree = "<group>"; };
-		6646474B1C7F14F00097D20E /* AppErrorEnum.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppErrorEnum.swift; path = Configs/AppErrorEnum.swift; sourceTree = "<group>"; };
+		6646474B1C7F14F00097D20E /* AppError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppError.swift; path = Configs/AppError.swift; sourceTree = "<group>"; };
 		6646474D1C7F1C1A0097D20E /* flickr2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = flickr2.json; path = Resources/Fixtures/flickr2.json; sourceTree = "<group>"; };
 		664C6FB51C7C71C900F884AC /* FlickrViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlickrViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		664C6FB81C7C71C900F884AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -89,6 +93,10 @@
 		669A14731C80A4CF00B867B5 /* UIBezierPath+Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIBezierPath+Shape.swift"; path = "Extension/UIBezierPath+Shape.swift"; sourceTree = "<group>"; };
 		669A14751C81C29A00B867B5 /* UIFont+Snippet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Snippet.swift"; path = "Extension/UIFont+Snippet.swift"; sourceTree = "<group>"; };
 		669A14781C81CDD400B867B5 /* TSMessagesDefaultDesign.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = TSMessagesDefaultDesign.json; path = Resources/Json/TSMessagesDefaultDesign.json; sourceTree = "<group>"; };
+		669A147A1C81DD4600B867B5 /* AppFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppFont.swift; path = Configs/AppFont.swift; sourceTree = "<group>"; };
+		669A147C1C81DDF800B867B5 /* AppFontSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppFontSize.swift; path = Configs/AppFontSize.swift; sourceTree = "<group>"; };
+		669A147E1C81DE6F00B867B5 /* UIFont+AppFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+AppFont.swift"; path = "Extension/UIFont+AppFont.swift"; sourceTree = "<group>"; };
+		669A14801C81E56200B867B5 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		90D1756E832BF8CFF37BDAB5 /* Pods_FlickrViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlickrViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD2ACD2C72F1ED2A159F6953 /* Pods-FlickrViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickrViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlickrViewer/Pods-FlickrViewer.debug.xcconfig"; sourceTree = "<group>"; };
 		D3A1B0B1C2A1ECD5026AEAE6 /* Pods_FlickrViewerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlickrViewerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				669A14811C81E56200B867B5 /* SafariServices.framework in Frameworks */,
 				1179E8D6D7FB165B429178D1 /* Pods_FlickrViewerTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -125,6 +134,7 @@
 		1AF9B1B6EAE9BD0CB878994E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				669A14801C81E56200B867B5 /* SafariServices.framework */,
 				90D1756E832BF8CFF37BDAB5 /* Pods_FlickrViewer.framework */,
 				D3A1B0B1C2A1ECD5026AEAE6 /* Pods_FlickrViewerTests.framework */,
 			);
@@ -232,6 +242,7 @@
 			children = (
 				669A14731C80A4CF00B867B5 /* UIBezierPath+Shape.swift */,
 				669A14711C809F7B00B867B5 /* UIColor+AppColor.swift */,
+				669A147E1C81DE6F00B867B5 /* UIFont+AppFont.swift */,
 				669A14751C81C29A00B867B5 /* UIFont+Snippet.swift */,
 				664C6FF01C7C7BBF00F884AC /* UIView+AutoLayout.swift */,
 			);
@@ -242,8 +253,10 @@
 			isa = PBXGroup;
 			children = (
 				664C70161C7D312D00F884AC /* AppData.swift */,
-				6646474B1C7F14F00097D20E /* AppErrorEnum.swift */,
+				6646474B1C7F14F00097D20E /* AppError.swift */,
+				669A147A1C81DD4600B867B5 /* AppFont.swift */,
 				664C6FF51C7C836D00F884AC /* Router.swift */,
+				669A147C1C81DDF800B867B5 /* AppFontSize.swift */,
 			);
 			name = Configs;
 			sourceTree = "<group>";
@@ -547,7 +560,9 @@
 			files = (
 				664C6FF11C7C7BBF00F884AC /* UIView+AutoLayout.swift in Sources */,
 				664C70031C7CBE9100F884AC /* PhotoItem.swift in Sources */,
+				669A147B1C81DD4600B867B5 /* AppFont.swift in Sources */,
 				6622117B1C7F3709005D60DC /* FlickrJsonParser.swift in Sources */,
+				669A147D1C81DDF800B867B5 /* AppFontSize.swift in Sources */,
 				664C6FB91C7C71C900F884AC /* AppDelegate.swift in Sources */,
 				664C6FEB1C7C7AA900F884AC /* MainView.swift in Sources */,
 				669A14741C80A4CF00B867B5 /* UIBezierPath+Shape.swift in Sources */,
@@ -559,9 +574,10 @@
 				669A14721C809F7B00B867B5 /* UIColor+AppColor.swift in Sources */,
 				664C700A1C7D276000F884AC /* ThumbnailCollectionViewCell.swift in Sources */,
 				664C700C1C7D28E300F884AC /* ThumbnailManager.swift in Sources */,
-				6646474C1C7F14F00097D20E /* AppErrorEnum.swift in Sources */,
+				6646474C1C7F14F00097D20E /* AppError.swift in Sources */,
 				664C6FE81C7C7A7A00F884AC /* MainViewController.swift in Sources */,
 				664C70171C7D312D00F884AC /* AppData.swift in Sources */,
+				669A147F1C81DE6F00B867B5 /* UIFont+AppFont.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

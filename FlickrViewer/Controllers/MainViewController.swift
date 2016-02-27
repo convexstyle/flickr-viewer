@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 import FontAwesome_swift
 import SVProgressHUD
 import TSMessages
@@ -34,6 +35,10 @@ class MainViewController: UIViewController {
     return items.count > 0
   }
   
+  var externalLinkExist: Bool {
+    return dataSourceReady && currentIndexPath.item < items.count && items[currentIndexPath.item].link != nil
+  }
+  
   lazy var unknownError: String = NSLocalizedString("unknownError", tableName: "App", comment: "Unknown Error")
   lazy var mainView: MainView = MainView()
   lazy var flickrManager: FlickrManager = FlickrManager.sharedInstance
@@ -53,7 +58,9 @@ class MainViewController: UIViewController {
     return self.mainView.navCollectionView
   }()
   
-  
+  lazy var externalLinkButton: UIButton = {
+    return self.mainView.externalLinkButton
+  }()
   
   
   // MARK: - Life cycle
@@ -111,6 +118,9 @@ class MainViewController: UIViewController {
     mainView.navCollectionView.delegate = thumbnailManager
     mainView.navCollectionView.dataSource = thumbnailManager
     
+    // External button
+    externalLinkButton.addTarget(self, action: "externalLinkButtonTouchUpInside:", forControlEvents: UIControlEvents.TouchUpInside)
+    
     // Fetch Feed
     fetchFeed()
   }
@@ -119,6 +129,17 @@ class MainViewController: UIViewController {
   // MARK: - Refresh flickr feed
   func refreshButtonTouchUpInside(sender: UIBarButtonItem) {
     fetchFeed()
+  }
+  
+  
+  // MARK: - Open SFsafariViewController to show a current Flickr page
+  func externalLinkButtonTouchUpInside(sender: UIButton) {
+    if let link = items[currentIndexPath.item].link, url = NSURL(string: link) {
+      let safariViewController = SFSafariViewController(URL: url)
+      safariViewController.modalTransitionStyle = .CoverVertical
+      safariViewController.modalPresentationStyle = .OverFullScreen
+      self.presentViewController(safariViewController, animated: true, completion: nil)
+    }
   }
   
   
@@ -132,6 +153,7 @@ class MainViewController: UIViewController {
       
       self.selectImageItemAtIndexPath(self.initIndexPath, animated: false)
       self.selectThumbnailItemAtIndexPath(self.initIndexPath, animated: false)
+      self.updateExternalLinkButton()
       
       }.always { _ -> Void in
         SVProgressHUD.dismiss()
@@ -148,6 +170,12 @@ class MainViewController: UIViewController {
         }
         
       }
+  }
+  
+  
+  // MARK: - Update externalLinkButton
+  func updateExternalLinkButton() {
+    externalLinkButton.hidden = !externalLinkExist
   }
   
   
@@ -211,6 +239,7 @@ extension MainViewController: UIScrollViewDelegate {
     let currentIndexPath = NSIndexPath(forItem: currentIndex, inSection: 0)
     
     selectThumbnailItemAtIndexPath(currentIndexPath)
+    updateExternalLinkButton()
   }
 }
 

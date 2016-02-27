@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import FontAwesome_swift
 
 class MainView: UIView {
   
   let imageCollectionView: UICollectionView
   let borderView: UIView
   let navCollectionView: UICollectionView
+  let externalLinkButton: UIButton
   
   // MARK: - Life cycle
   required init?(coder aDecoder: NSCoder) {
@@ -29,6 +31,8 @@ class MainView: UIView {
     let navLayout = UICollectionViewFlowLayout()
     navLayout.scrollDirection = .Horizontal
     navCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: navLayout)
+    
+    externalLinkButton = UIButton()
     
     super.init(frame: frame)
     
@@ -50,27 +54,41 @@ extension MainView: Constrainable {
     
     navCollectionView.backgroundColor = .appBlueColor()
     addSubview(navCollectionView)
+    
+    externalLinkButton.hidden = true
+    externalLinkButton.titleLabel?.font = UIFont.fontAwesomeOfSize(20)
+    externalLinkButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+    externalLinkButton.setTitle(String.fontAwesomeIconWithName(.ExternalLink), forState: .Normal)
+    borderView.addSubview(externalLinkButton)
   }
   
   func initConstraints() {
     let metrics = [
       "navHeight": 100,
-      "borderHeight": 8
+      "borderHeight": 30,
+      "paddingRight": 15
     ]
     
     let subviews = [
       "imageCollection": imageCollectionView,
       "border": borderView,
-      "nav": navCollectionView
+      "nav": navCollectionView,
+      "button": externalLinkButton
     ]
     
     let subviewsConstraints: [String: NSLayoutFormatOptions] = [
       "|[imageCollection]|": [],
       "|[border]|": [],
       "|[nav]|": [],
+      "[button]-(paddingRight)-|": [],
       "V:|[imageCollection][border(borderHeight)][nav(navHeight)]|": []
     ]
 
     activateConstraints(subviewsConstraints, withViews: subviews, metrics: metrics)
+    activateConstraints(
+      [
+        NSLayoutConstraint(item: externalLinkButton, attribute: .CenterY, relatedBy: .Equal, toItem: borderView, attribute: .CenterY, multiplier: 1, constant: 2)
+      ]
+    )
   }
 }
