@@ -18,10 +18,6 @@ class FlickrManager {
   // MARK: - Fetch public feed
   func fetchFeed() -> Promise<[FlickrItem]> {
     let defered = Promise<[FlickrItem]>.pendingPromise()
-
-    // NOTE: Test locally
-//    let items = parseJson(self.fixtureDataFromFile("flickr")!)
-//    defered.fulfill(items)
     
     Alamofire.request(.GET, Router.PublicFeed.URL, parameters: Router.PublicFeed.parameters)
       .validate()
@@ -30,12 +26,12 @@ class FlickrManager {
         switch response.result {
         case .Success:
           guard var jsonString = response.result.value else {
-            // TODO: - If json is nil, it is usually because of the incorrect format json from Flickr. This is the fallback to load local fixture json file.
             defered.reject(FlickrError.LoadError)
             return
           }
           
-          jsonString = jsonString.stringByReplacingOccurrencesOfString("\\'", withString: "'")
+          // Remove unexpected escaped single quotes to avoid Flickr invalid json error
+          jsonString = FlickrJsonParser.removeBackSlashesFromEspcapedSingleQuotes(jsonString)
           
           guard let data = NSString(string: jsonString).dataUsingEncoding(NSUTF8StringEncoding) else {
             defered.reject(FlickrError.LoadError)
@@ -51,10 +47,9 @@ class FlickrManager {
           if flickrItems.count == 0 {
             print("\(Router.PublicFeed.URL.absoluteString)?\(FlickrJsonParser.createQueryStringWithParameters(Router.PublicFeed.parameters)) returns no items.")
             defered.reject(FlickrError.NoDataError)
-            return
+          } else {
+            defered.fulfill(flickrItems)
           }
-          
-          defered.fulfill(flickrItems)
           
         case .Failure(let error):
           defered.reject(error)

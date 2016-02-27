@@ -27,7 +27,7 @@ class MainViewController: UIViewController {
   var currentIndexPath = NSIndexPath(forItem: 0, inSection: 0)
   var items = [FlickrItem]() {
     didSet {
-      mainView.imageCollectionView.reloadData()
+      imageCollectionView.reloadData()
     }
   }
   
@@ -45,7 +45,7 @@ class MainViewController: UIViewController {
   lazy var thumbnailManager: ThumbnailManager = {
     let manager = ThumbnailManager()
     manager.delegate = self
-    manager.collectionView = self.mainView.navCollectionView
+    manager.collectionView = self.thumbnailCollectionView
     
     return manager
   }()
@@ -100,23 +100,23 @@ class MainViewController: UIViewController {
     navigationItem.rightBarButtonItem = refreshButton
     
     // Large images
-    mainView.imageCollectionView.registerClass(ImageCollectionViewCell.self, forCellWithReuseIdentifier: Constants.Keys.imageCollectionCellId)
-    mainView.imageCollectionView.showsVerticalScrollIndicator = false
-    mainView.imageCollectionView.showsHorizontalScrollIndicator = false
-    mainView.imageCollectionView.alwaysBounceHorizontal = true
-    mainView.imageCollectionView.pagingEnabled = true
-    mainView.imageCollectionView.delegate = self
-    mainView.imageCollectionView.clipsToBounds = false
-    mainView.imageCollectionView.dataSource = self
+    imageCollectionView.registerClass(ImageCollectionViewCell.self, forCellWithReuseIdentifier: Constants.Keys.imageCollectionCellId)
+    imageCollectionView.showsVerticalScrollIndicator = false
+    imageCollectionView.showsHorizontalScrollIndicator = false
+    imageCollectionView.alwaysBounceHorizontal = true
+    imageCollectionView.pagingEnabled = true
+    imageCollectionView.delegate = self
+    imageCollectionView.clipsToBounds = false
+    imageCollectionView.dataSource = self
     
     // Thumbnails
-    mainView.navCollectionView.registerClass(ThumbnailCollectionViewCell.self, forCellWithReuseIdentifier: ThumbnailManager.Constants.Keys.thumbnailCellId)
-    mainView.navCollectionView.showsVerticalScrollIndicator = false
-    mainView.navCollectionView.showsHorizontalScrollIndicator = false
-    mainView.navCollectionView.alwaysBounceHorizontal = true
-    mainView.navCollectionView.pagingEnabled = false
-    mainView.navCollectionView.delegate = thumbnailManager
-    mainView.navCollectionView.dataSource = thumbnailManager
+    thumbnailCollectionView.registerClass(ThumbnailCollectionViewCell.self, forCellWithReuseIdentifier: ThumbnailManager.Constants.Keys.thumbnailCellId)
+    thumbnailCollectionView.showsVerticalScrollIndicator = false
+    thumbnailCollectionView.showsHorizontalScrollIndicator = false
+    thumbnailCollectionView.alwaysBounceHorizontal = true
+    thumbnailCollectionView.pagingEnabled = false
+    thumbnailCollectionView.delegate = thumbnailManager
+    thumbnailCollectionView.dataSource = thumbnailManager
     
     // External button
     externalLinkButton.addTarget(self, action: "externalLinkButtonTouchUpInside:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -138,11 +138,8 @@ class MainViewController: UIViewController {
       // Update statusBarStyle
       UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
       
-      let safariViewController = SFSafariViewController(URL: url)
-      safariViewController.modalTransitionStyle = .CoverVertical
-      safariViewController.modalPresentationStyle = .OverFullScreen
-      safariViewController.delegate = self
-      self.presentViewController(safariViewController, animated: true, completion: nil)
+      // Open Flickr page with SFSafariViewController
+      presentSFSafariViewControllerWithURL(url)
     }
   }
   
@@ -177,6 +174,16 @@ class MainViewController: UIViewController {
   }
   
   
+  // MARK: - Open SFSafariViewController
+  func presentSFSafariViewControllerWithURL(url: NSURL) {
+    let safariViewController = SFSafariViewController(URL: url)
+    safariViewController.modalTransitionStyle = .CoverVertical
+    safariViewController.modalPresentationStyle = .OverFullScreen
+    safariViewController.delegate = self
+    self.presentViewController(safariViewController, animated: true, completion: nil)
+  }
+  
+  
   // MARK: - Update externalLinkButton
   func updateExternalLinkButton() {
     externalLinkButton.hidden = !externalLinkExist
@@ -186,17 +193,17 @@ class MainViewController: UIViewController {
   // MARK: - Cell
   func selectThumbnailItemAtIndexPath(path: NSIndexPath, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .Left) {
     // Select cell
-    let selectedCell = mainView.navCollectionView.cellForItemAtIndexPath(path)
+    let selectedCell = thumbnailCollectionView.cellForItemAtIndexPath(path)
     selectedCell?.selected = true
     
     // Move to the selected cell
-    mainView.navCollectionView.selectItemAtIndexPath(path, animated: animated, scrollPosition: scrollPosition)
+    thumbnailCollectionView.selectItemAtIndexPath(path, animated: animated, scrollPosition: scrollPosition)
     
     currentIndexPath = path
   }
   
   func selectImageItemAtIndexPath(path: NSIndexPath, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .Left) {
-    mainView.imageCollectionView.selectItemAtIndexPath(path, animated: animated, scrollPosition: scrollPosition)
+    imageCollectionView.selectItemAtIndexPath(path, animated: animated, scrollPosition: scrollPosition)
   }
   
   
@@ -219,8 +226,8 @@ class MainViewController: UIViewController {
     super.traitCollectionDidChange(previousTraitCollection)
     
     if traitCollection != previousTraitCollection {
-      mainView.imageCollectionView.collectionViewLayout.invalidateLayout()
-      mainView.navCollectionView.collectionViewLayout.invalidateLayout()
+      imageCollectionView.collectionViewLayout.invalidateLayout()
+      thumbnailCollectionView.collectionViewLayout.invalidateLayout()
     }
   }
   
@@ -248,7 +255,7 @@ extension MainViewController: SFSafariViewControllerDelegate {
 // MARK: - UIScrollViewDelegate
 extension MainViewController: UIScrollViewDelegate {
   func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-    let currentIndex = Int(mainView.imageCollectionView.contentOffset.x / mainView.imageCollectionView.frame.size.width)
+    let currentIndex = Int(imageCollectionView.contentOffset.x / imageCollectionView.frame.size.width)
     let currentIndexPath = NSIndexPath(forItem: currentIndex, inSection: 0)
     
     selectThumbnailItemAtIndexPath(currentIndexPath)

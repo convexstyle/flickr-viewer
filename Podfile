@@ -2,6 +2,12 @@ platform :ios, '9.0'
 inhibit_all_warnings!
 use_frameworks!
 
+def testing_pods
+  pod 'Mockingjay', '~> 1.1.1'
+  pod 'Nimble', '~> 3.1.0'
+  pod 'Quick', :head
+end
+
 target "FlickrViewer" do
   # Network
   pod 'Alamofire', '~> 3.2.0'
@@ -21,10 +27,9 @@ target "FlickrViewer" do
 end
 
 target "FlickrViewerTests" do
-  pod 'Mockingjay', '~> 1.1.1'
-  pod 'Nimble', '~> 3.1.0'
-  pod 'Quick', '~> 0.9.1'
+  testing_pods
 end
 
 target "FlickrViewerUITests" do
+  testing_pods
 end

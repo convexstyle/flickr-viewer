@@ -44,6 +44,11 @@ class FlickrJsonParser {
     return flickrItems
   }
   
+  
+  class func removeBackSlashesFromEspcapedSingleQuotes(str: String) -> String {
+    return str.stringByReplacingOccurrencesOfString("\\'", withString: "'")
+  }
+  
   class func getSlugImagePath(imageURL: String) -> String {
     let pattern = "(https:\\/\\/.*)_m\\.jpg"
     return imageURL.stringByReplacingOccurrencesOfString(pattern, withString: "$1", options: NSStringCompareOptions.RegularExpressionSearch, range: nil)
@@ -63,12 +68,5 @@ class FlickrJsonParser {
     }
     
     return queries.joinWithSeparator("&")
-  }
-  
-  class func fixtureDataFromFile(name: String, ofType type: String = "json") -> NSData? {
-    let bundle = NSBundle(identifier: "com.convexstyle.FlickrViewer")!
-    let pathForFixture = bundle.pathForResource(name, ofType: type)!
-    
-    return NSData(contentsOfFile: pathForFixture)
   }
 }
