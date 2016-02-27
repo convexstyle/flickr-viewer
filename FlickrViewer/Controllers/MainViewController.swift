@@ -9,6 +9,7 @@
 import UIKit
 import FontAwesome_swift
 import SVProgressHUD
+import TSMessages
 
 class MainViewController: UIViewController {
   
@@ -29,6 +30,7 @@ class MainViewController: UIViewController {
     }
   }
   
+  lazy var unknownError: String = NSLocalizedString("unknownError", tableName: "App", comment: "Unknown Error")
   lazy var mainView: MainView = MainView()
   lazy var flickrManager: FlickrManager = FlickrManager.sharedInstance
   lazy var thumbnailManager: ThumbnailManager = {
@@ -38,12 +40,16 @@ class MainViewController: UIViewController {
     
     return manager
   }()
+  
   lazy var imageCollectionView: UICollectionView = {
     return self.mainView.imageCollectionView
   }()
+  
   lazy var thumbnailCollectionView: UICollectionView = {
     return self.mainView.navCollectionView
   }()
+  
+  
   
   
   // MARK: - Life cycle
@@ -106,7 +112,7 @@ class MainViewController: UIViewController {
   }
   
   
-  // MARK: - Button
+  // MARK: - Refresh flickr feed
   func refreshButtonTouchUpInside(sender: UIBarButtonItem) {
     fetchFeed()
   }
@@ -114,7 +120,6 @@ class MainViewController: UIViewController {
   
   // MARK: - Load feed
   func fetchFeed() {
-    
     SVProgressHUD.show()
     
     flickrManager.fetchFeed().then { items -> Void in
@@ -129,9 +134,13 @@ class MainViewController: UIViewController {
         
       }.error { error -> Void in
         if let error = error as? FlickrError {
-          print("error >>> \(error.description)")
+          // Show FlickrError description
+          TSMessage.showNotificationWithTitle("Error", subtitle: error.description, type: .Error)
+          
         } else {
-          print("error default")
+          // Show unknown error from library or system
+          TSMessage.showNotificationWithTitle("Error", subtitle: self.unknownError, type: .Error)
+          
         }
         
       }
@@ -163,8 +172,6 @@ class MainViewController: UIViewController {
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
-    print("mainView.imageCollectionView.frame.size.width 3 ---> \(mainView.imageCollectionView.frame.size.width)")
-    
     mainView.layoutIfNeeded()
     mainView.imageCollectionView.setContentOffset(CGPoint(x: mainView.imageCollectionView.frame.size.width * CGFloat(currentIndexPath.item), y: 0), animated: false)
   }
@@ -176,8 +183,6 @@ class MainViewController: UIViewController {
       mainView.imageCollectionView.collectionViewLayout.invalidateLayout()
       mainView.navCollectionView.collectionViewLayout.invalidateLayout()
     }
-    
-    print("mainView.imageCollectionView.frame.size.width 2 ---> \(mainView.imageCollectionView.frame.size.width)")
   }
   
 }

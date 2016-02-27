@@ -7,3 +7,9 @@
 */
 
 appTitle = "Flickr Photo Viewer";
+
+// Error description
+flickrLoadErrorDescription = "Failed to load a json file from Flickr correctly.\nPlease refresh again.";
+flickrJsonErrorDescription = "Seems like the json from Flickr is in the incorrect format.\nPlease refresh again.";
+flickrNoDataErrorDescription = "Didn't find any photo data.\nPlease refresh again.";
+unknownError = "A unknown error occurred.";

@@ -68,7 +68,8 @@ extension AppDelegate {
     appearance.tintColor = UIColor.whiteColor()
     appearance.barTintColor = UIColor(rgba: "#3466b0")
     appearance.titleTextAttributes = [
-      NSForegroundColorAttributeName: UIColor.whiteColor()
+      NSForegroundColorAttributeName: UIColor.whiteColor(),
+      NSFontAttributeName: UIFont(name: "HelveticaNeue-Bold", size: 16)!
     ]
   }
   
@@ -78,6 +79,5 @@ extension AppDelegate {
     SVProgressHUD.setBackgroundColor(UIColor(rgba: "#3466b0"))
     SVProgressHUD.setForegroundColor(UIColor.whiteColor())
   }
-  
 }
 

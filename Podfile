@@ -10,11 +10,14 @@ target "FlickrViewer" do
   # Utility
   pod 'PromiseKit', '~> 3.0.2'
   pod 'UIColor_Hex_Swift', '~> 1.9'
-
-  # View
-  pod 'SVProgressHUD'
-  pod 'FontAwesome.swift', '~> 0.7.0'
   pod 'SDWebImage', '~> 3.7.5'
+
+  # UI
+  pod 'SVProgressHUD'
+  pod 'TSMessages', '~> 0.9.12'
+
+  # Assets
+  pod 'FontAwesome.swift', '~> 0.7.0'
 end
 
 target "FlickrViewerTests" do

@@ -36,7 +36,7 @@ class FlickrManager {
           
           guard let flickrItems = FlickrJsonParser.parseJson(data) else {
             print("\(Router.PublicFeed.URL.absoluteString)?\(FlickrJsonParser.createQueryStringWithParameters(Router.PublicFeed.parameters)) returns wrong json format.")
-            defered.reject(FlickrError.JsonError)
+            defered.reject(FlickrError.JsonFormatError)
             return
           }
           

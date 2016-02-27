@@ -10,20 +10,20 @@ import Foundation
 
 enum FlickrError: ErrorType {
   case LoadError
-  case JsonError
+  case JsonFormatError
   case NoDataError
   case SystemError(NSError)
   
   var description: String {
     switch self {
     case .LoadError:
-      return "Load error"
+      return NSLocalizedString("flickrLoadErrorDescription", tableName: "App", value: "", comment: "Flickr json load error")
       
-    case .JsonError:
-      return "Json syntax error"
+    case .JsonFormatError:
+      return NSLocalizedString("flickrJsonErrorDescription", tableName: "App", value: "", comment: "Flickr json format error")
       
     case .NoDataError:
-      return ""
+      return NSLocalizedString("flickrNoDataErrorDescription", tableName: "App", value: "", comment: "Flickr no data error")
     
     case .SystemError(let error):
       return error.localizedDescription

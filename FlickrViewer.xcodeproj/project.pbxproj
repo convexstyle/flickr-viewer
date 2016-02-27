@@ -33,6 +33,8 @@
 		664C70171C7D312D00F884AC /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C70161C7D312D00F884AC /* AppData.swift */; };
 		669A14721C809F7B00B867B5 /* UIColor+AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A14711C809F7B00B867B5 /* UIColor+AppColor.swift */; };
 		669A14741C80A4CF00B867B5 /* UIBezierPath+Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A14731C80A4CF00B867B5 /* UIBezierPath+Shape.swift */; };
+		669A14761C81C29A00B867B5 /* UIFont+Snippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A14751C81C29A00B867B5 /* UIFont+Snippet.swift */; };
+		669A14791C81CDD400B867B5 /* TSMessagesDefaultDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = 669A14781C81CDD400B867B5 /* TSMessagesDefaultDesign.json */; };
 		A90788DB7BF610BF9D5ED649 /* Pods_FlickrViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D1756E832BF8CFF37BDAB5 /* Pods_FlickrViewer.framework */; };
 /* End PBXBuildFile section */
 
@@ -87,6 +89,8 @@
 		664C70161C7D312D00F884AC /* AppData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppData.swift; path = Configs/AppData.swift; sourceTree = "<group>"; };
 		669A14711C809F7B00B867B5 /* UIColor+AppColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIColor+AppColor.swift"; path = "Extension/UIColor+AppColor.swift"; sourceTree = "<group>"; };
 		669A14731C80A4CF00B867B5 /* UIBezierPath+Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIBezierPath+Shape.swift"; path = "Extension/UIBezierPath+Shape.swift"; sourceTree = "<group>"; };
+		669A14751C81C29A00B867B5 /* UIFont+Snippet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIFont+Snippet.swift"; path = "Extension/UIFont+Snippet.swift"; sourceTree = "<group>"; };
+		669A14781C81CDD400B867B5 /* TSMessagesDefaultDesign.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = TSMessagesDefaultDesign.json; path = Resources/Json/TSMessagesDefaultDesign.json; sourceTree = "<group>"; };
 		90D1756E832BF8CFF37BDAB5 /* Pods_FlickrViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlickrViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD2ACD2C72F1ED2A159F6953 /* Pods-FlickrViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickrViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlickrViewer/Pods-FlickrViewer.debug.xcconfig"; sourceTree = "<group>"; };
 		D3A1B0B1C2A1ECD5026AEAE6 /* Pods_FlickrViewerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlickrViewerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -229,9 +233,10 @@
 		664C6FEF1C7C7B8000F884AC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				669A14711C809F7B00B867B5 /* UIColor+AppColor.swift */,
-				664C6FF01C7C7BBF00F884AC /* UIView+AutoLayout.swift */,
 				669A14731C80A4CF00B867B5 /* UIBezierPath+Shape.swift */,
+				669A14711C809F7B00B867B5 /* UIColor+AppColor.swift */,
+				669A14751C81C29A00B867B5 /* UIFont+Snippet.swift */,
+				664C6FF01C7C7BBF00F884AC /* UIView+AutoLayout.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -259,6 +264,7 @@
 		664C6FFA1C7C9E6600F884AC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				669A14771C81CD9400B867B5 /* Json */,
 				664C70151C7D30E900F884AC /* Strings */,
 				664C700D1C7D2FF300F884AC /* Fonts */,
 				664C6FFB1C7C9EE300F884AC /* Fixtures */,
@@ -297,6 +303,14 @@
 				664C70131C7D30E200F884AC /* App.strings */,
 			);
 			name = Strings;
+			sourceTree = "<group>";
+		};
+		669A14771C81CD9400B867B5 /* Json */ = {
+			isa = PBXGroup;
+			children = (
+				669A14781C81CDD400B867B5 /* TSMessagesDefaultDesign.json */,
+			);
+			name = Json;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -411,6 +425,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				664C6FFD1C7C9F0100F884AC /* flickr.json in Resources */,
+				669A14791C81CDD400B867B5 /* TSMessagesDefaultDesign.json in Resources */,
 				664C6FC31C7C71C900F884AC /* LaunchScreen.storyboard in Resources */,
 				664C70141C7D30E200F884AC /* App.strings in Resources */,
 				664C70111C7D305E00F884AC /* FontAwesome.otf in Resources */,
@@ -541,6 +556,7 @@
 				669A14741C80A4CF00B867B5 /* UIBezierPath+Shape.swift in Sources */,
 				664C6FF61C7C836D00F884AC /* Router.swift in Sources */,
 				664C70081C7D1AC000F884AC /* ImageCollectionViewCell.swift in Sources */,
+				669A14761C81C29A00B867B5 /* UIFont+Snippet.swift in Sources */,
 				664C6FED1C7C7B6500F884AC /* ConstrainableView.swift in Sources */,
 				664C6FF31C7C82CA00F884AC /* FlickrManager.swift in Sources */,
 				669A14721C809F7B00B867B5 /* UIColor+AppColor.swift in Sources */,
