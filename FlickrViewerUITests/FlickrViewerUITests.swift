@@ -9,28 +9,61 @@
 import XCTest
 
 class FlickrViewerUITests: XCTestCase {
+  
+  let app = XCUIApplication()
         
-    override func setUp() {
-        super.setUp()
-        
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        // In UI tests it is usually best to stop immediately when a failure occurs.
-        continueAfterFailure = false
-        // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
-        XCUIApplication().launch()
+  override func setUp() {
+    super.setUp()
+    
+    // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    // In UI tests it is usually best to stop immediately when a failure occurs.
+    continueAfterFailure = false
+    // UI tests must launch the application that they test. Doing this in setup will make sure it happens for each test method.
+    XCUIApplication().launch()
 
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-    }
+    // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+  }
+  
+  override func tearDown() {
+    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    super.tearDown()
+  }
+
+  
+  func testCollectionViews() {
+    let thumbnailCollectionView = app.collectionViews["thumbnailCollectionView"]
+    let imageCollectionView = app.collectionViews["imageCollectionView"]
     
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
+    let secondImageCell = imageCollectionView.childrenMatchingType(XCUIElementType.Any).elementBoundByIndex(1)
+    let secondThumbnailCell = thumbnailCollectionView.childrenMatchingType(XCUIElementType.Any).elementBoundByIndex(1)
+    if secondImageCell.exists && secondThumbnailCell.exists {
+      secondThumbnailCell.tap()
+      
+      XCTAssertTrue(secondImageCell.selected)
+      XCTAssertTrue(secondThumbnailCell.selected)
     }
+  }
+  
+  func testExternalLinkButton() {
+    let externalButton = app.buttons["externalLinkButton"]
     
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    externalButton.forceTapElement()
+    
+    XCTAssertTrue(UIApplication.sharedApplication().statusBarStyle == UIStatusBarStyle.Default)
+  }
+  
+}
+
+// Sends a tap event to a hittable/unhittable element.
+extension XCUIElement {
+  func forceTapElement() {
+    if self.hittable {
+      self.tap()
     }
-    
+    else {
+      let coordinate: XCUICoordinate = self.coordinateWithNormalizedOffset(CGVectorMake(0.0, 0.0))
+      coordinate.tap()
+    }
+  }
 }

@@ -18,7 +18,6 @@ class MainViewController: UIViewController {
     struct Keys {
       static let imageCollectionCellId = "MainViewController.imageCollectionCellId"
       static let thumbnailCollectionCellId = "MainViewController.thumbnailCollectionCellId"
-      static let defaultCollectionCellId = "MainViewController.defaultCollectionCellId"
     }
   }
   
@@ -62,6 +61,8 @@ class MainViewController: UIViewController {
     return self.mainView.externalLinkButton
   }()
   
+  lazy var sharedApplication: UIApplication =  UIApplication.sharedApplication()
+  
   
   // MARK: - Life cycle
   init() {
@@ -82,7 +83,11 @@ class MainViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    // Layout Stype
+    
+    // Add identifiers for UITests
+    setIdentifiers()
+    
+    // NOTE: Using edgesForExtendedLayout for layout style produces some warnings when the orientation changes.
 //    edgesForExtendedLayout = UIRectEdge.None
     
     automaticallyAdjustsScrollViewInsets = false
@@ -136,7 +141,7 @@ class MainViewController: UIViewController {
   func externalLinkButtonTouchUpInside(sender: UIButton) {
     if let link = items[currentIndexPath.item].link, url = NSURL(string: link) {
       // Update statusBarStyle
-      UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.Default
+      sharedApplication.statusBarStyle = UIStatusBarStyle.Default
       
       // Open Flickr page with SFSafariViewController
       presentSFSafariViewControllerWithURL(url)
@@ -190,7 +195,7 @@ class MainViewController: UIViewController {
   }
   
   
-  // MARK: - Cell
+  // MARK: - Select current cells
   func selectThumbnailItemAtIndexPath(path: NSIndexPath, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .Left) {
     // Select cell
     let selectedCell = thumbnailCollectionView.cellForItemAtIndexPath(path)
@@ -231,6 +236,16 @@ class MainViewController: UIViewController {
     }
   }
   
+}
+
+
+// MARK: - UITests
+extension MainViewController {
+  private func setIdentifiers() {
+    externalLinkButton.accessibilityIdentifier = "externalLinkButton"
+    imageCollectionView.accessibilityIdentifier = "imageCollectionView"
+    thumbnailCollectionView.accessibilityIdentifier = "thumbnailCollectionView"
+  }
 }
 
 

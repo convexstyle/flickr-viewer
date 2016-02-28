@@ -32,6 +32,13 @@ Open **FlickrViewer.xcworkspace** and build this app to your iPhone or simulator
 Do not open FlickrViewer.xcodeproj as it doesn't include any library from CocoaPods.
 
 ## Tests
-**Command + U** to run Unit tests.
+**Command + U** to run Unit tests. 
+
+Select one of simulators such as iPhone 6s Plus.
 
 Flickr Viewer is using [Quick](https://github.com/Quick/Quick "Quick") and [Nimble](https://github.com/Quick/Nimble "Nimble") for unit testing. The current version of Quick has some issues to run an individual tests class (QuickSpec), so the only solution is to run tests entirely with Command + U. The issue was mentioned [here](https://github.com/Quick/Quick/issues/373).
+
+## UITests
+**Command + U** to run UITests.
+
+Select one of simulators such as iPhone 6s Plus.
