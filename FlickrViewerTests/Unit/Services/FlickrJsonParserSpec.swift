@@ -25,21 +25,33 @@ class FlickrJsonParserSpec: QuickSpec {
           expect(result).to(beNil())
         }
         
-        it("return FlickrItem array") {
-          let data = fixtureDataFromFile("items")!
-          let result = FlickrJsonParser.parseJson(data)
-          
+        context("when json is correct") {
+          var result: [FlickrItem]?
           var expected = [FlickrItem]()
-          var flickrItem = FlickrItem()
-          flickrItem.originalImage = "https://farm2.staticflickr.com/1657/24583733284_f545af71a3.jpg"
-          flickrItem.mediumImage = "https://farm2.staticflickr.com/1657/24583733284_f545af71a3_m.jpg"
-          flickrItem.smallImage = "https://farm2.staticflickr.com/1657/24583733284_f545af71a3_s.jpg"
-          flickrItem.thumbnailImage = "https://farm2.staticflickr.com/1657/24583733284_f545af71a3_t.jpg"
-          expected.append(flickrItem)
           
-          expect(result?.count == expected.count).to(beTrue())
-          expect(result?.first).toNot(beNil())
-          expect(result?.first!.mediumImage).to(equal(expected.first!.mediumImage))
+          beforeEach {
+            let data = fixtureDataFromFile("items")!
+            result = FlickrJsonParser.parseJson(data)
+            
+            var flickrItem = FlickrItem()
+            flickrItem.originalImage = "https://farm2.staticflickr.com/1657/24583733284_f545af71a3.jpg"
+            flickrItem.mediumImage = "https://farm2.staticflickr.com/1657/24583733284_f545af71a3_m.jpg"
+            flickrItem.smallImage = "https://farm2.staticflickr.com/1657/24583733284_f545af71a3_s.jpg"
+            flickrItem.thumbnailImage = "https://farm2.staticflickr.com/1657/24583733284_f545af71a3_t.jpg"
+            expected.append(flickrItem)
+          }
+          
+          it("count should be the same") {
+            expect(result?.count == expected.count).to(beTrue())
+          }
+          
+          it("first should not be nil") {
+            expect(result?.first).toNot(beNil())
+          }
+          
+          it("medium image should be same") {
+            expect(result?.first!.mediumImage).to(equal(expected.first!.mediumImage))
+          }
         }
       }
       

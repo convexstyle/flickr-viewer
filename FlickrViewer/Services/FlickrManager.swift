@@ -52,7 +52,7 @@ class FlickrManager {
           }
           
         case .Failure(let error):
-          defered.reject(error)
+          defered.reject(FlickrError.SystemError(error))
           
         }
       }

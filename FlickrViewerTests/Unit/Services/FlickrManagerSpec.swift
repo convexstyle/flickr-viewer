@@ -51,7 +51,7 @@ class FlickrManagerSpec: QuickSpec {
           
           it("return promise error") {
             promise = flickrManager.fetchFeed()
-            expect(promise.fulfilled).toEventually(beFalse())
+            expect(promise.fulfilled).toEventually(beFalse(), timeout: 3)
           }
         }
         
