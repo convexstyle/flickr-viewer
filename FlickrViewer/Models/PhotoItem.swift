@@ -8,6 +8,9 @@
 
 import Foundation
 
+/**
+ Flickr data object store necessary fields
+ */
 struct FlickrItem {
   var originalImage: String?
   var mediumImage: String?

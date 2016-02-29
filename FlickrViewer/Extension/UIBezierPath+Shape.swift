@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ UIBezierPath extension to add snippet codes to draw shapes
+ */
 extension UIBezierPath {
   
   typealias DrawSquareLineInputData = (lineWidth: CGFloat, lineCap: CGLineCap, lineJoin: CGLineJoin, strokeColor: UIColor, rect: CGRect)

@@ -9,6 +9,9 @@
 import Foundation
 import Alamofire
 
+/**
+ Manage router information for any Flickr API call.
+ */
 enum Router: String {
   
   static let baseURLString = "https://api.flickr.com/services/"

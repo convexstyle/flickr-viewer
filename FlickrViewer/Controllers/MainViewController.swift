@@ -132,12 +132,22 @@ class MainViewController: UIViewController {
   
   
   // MARK: - Refresh flickr feed
+  /**
+  Event handler method called after refresh button is tapped
+  
+  - parameter sender: UIBarButtonItem object
+  */
   func refreshButtonTouchUpInside(sender: UIBarButtonItem) {
     fetchFeed()
   }
   
   
   // MARK: - Open SFsafariViewController to show a current Flickr page
+  /**
+  Event handler method called after external link button is tapped
+  
+  - parameter sender: UIButton object
+  */
   func externalLinkButtonTouchUpInside(sender: UIButton) {
     if let link = items[currentIndexPath.item].link, url = NSURL(string: link) {
       // Update statusBarStyle
@@ -150,6 +160,9 @@ class MainViewController: UIViewController {
   
   
   // MARK: - Load feed
+  /**
+  Load latest public feed json from Flickr
+  */
   func fetchFeed() {
     SVProgressHUD.show()
     
@@ -180,6 +193,11 @@ class MainViewController: UIViewController {
   
   
   // MARK: - Open SFSafariViewController
+  /**
+  Open SFSafariViewController
+  
+  - parameter url: NSURL object
+  */
   func presentSFSafariViewControllerWithURL(url: NSURL) {
     let safariViewController = SFSafariViewController(URL: url)
     safariViewController.modalTransitionStyle = .CoverVertical
@@ -196,6 +214,13 @@ class MainViewController: UIViewController {
   
   
   // MARK: - Select current cells
+  /**
+  Select current thumbail and move to it
+  
+  - parameter path: NSIndexPath to select
+  - parameter animated: Should animate or not
+  - parameter scrollPosition: Which side of cell to be aligned
+  */
   func selectThumbnailItemAtIndexPath(path: NSIndexPath, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .Left) {
     // Select cell
     let selectedCell = thumbnailCollectionView.cellForItemAtIndexPath(path)
@@ -207,6 +232,13 @@ class MainViewController: UIViewController {
     currentIndexPath = path
   }
   
+  /**
+   Select current image and move to it
+   
+   - parameter path: NSIndexPath to select
+   - parameter animated: Should animate or not
+   - parameter scrollPosition: Which side of cell to be aligned
+   */
   func selectImageItemAtIndexPath(path: NSIndexPath, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .Left) {
     imageCollectionView.selectItemAtIndexPath(path, animated: animated, scrollPosition: scrollPosition)
   }
@@ -241,6 +273,9 @@ class MainViewController: UIViewController {
 
 // MARK: - UITests
 extension MainViewController {
+  /**
+   Set accessibilityIdentifier for UITests
+   */
   private func setIdentifiers() {
     externalLinkButton.accessibilityIdentifier = "externalLinkButton"
     imageCollectionView.accessibilityIdentifier = "imageCollectionView"

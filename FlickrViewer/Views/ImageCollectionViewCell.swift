@@ -9,6 +9,9 @@
 import UIKit
 import SDWebImage
 
+/**
+ Custom UICollectionView cell of Full image's UICollectionView.
+ */
 class ImageCollectionViewCell: UICollectionViewCell {
   
   let imageView: UIImageView

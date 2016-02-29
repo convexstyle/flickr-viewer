@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ UIFont extension to manage custom UIFonts for FlickrViewer. Manage frequent used fonts here.
+ */
 extension UIFont {
   class func appThinFontOfSize(size: CGFloat) -> UIFont? {
     return UIFont(name: AppFont.Thin.rawValue, size: size)

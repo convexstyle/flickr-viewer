@@ -9,6 +9,9 @@
 import UIKit
 import UIColor_Hex_Swift
 
+/**
+ UIColor extension to add custom colors for FlickrViewer. Manage frequent used colors here.
+ */
 extension UIColor {
   class func appGreyColor() -> UIColor {
     return UIColor(rgba: "#ebebeb")

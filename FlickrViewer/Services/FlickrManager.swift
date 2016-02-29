@@ -16,6 +16,11 @@ class FlickrManager {
   static let sharedInstance: FlickrManager = FlickrManager()
   
   // MARK: - Fetch public feed
+  /**
+  Fetch public feed json
+  
+  @return PendingPromise object - Promise<[FlickrItem]>
+  */
   func fetchFeed() -> Promise<[FlickrItem]> {
     let defered = Promise<[FlickrItem]>.pendingPromise()
     

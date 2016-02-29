@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ Manage app level font size.
+ */
 enum AppFontSize: CGFloat {
   case XSmall = 12
   case Small = 14

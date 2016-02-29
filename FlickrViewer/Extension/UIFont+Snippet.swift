@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ UIFont extension to print all avaliable font names.
+ */
 extension UIFont {
   class func listFontNames() {
     let fontFamilyNames = UIFont.familyNames()

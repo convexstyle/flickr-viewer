@@ -8,6 +8,9 @@
 
 import Foundation
 
+/**
+ Manage app level font type.
+ */
 enum AppFont: String {
   case Thin = "HelveticaNeue-Thin"
   case Light = "HelveticaNeue-Light"

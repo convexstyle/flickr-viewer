@@ -12,6 +12,9 @@ protocol ThumbnailManagerDelegate: class {
   func cellDidSelect(sender: ThumbnailManager, path: NSIndexPath)
 }
 
+/**
+ Helper class to manage UICollectionViewDelegate and UICollectionViewDataSource of thumbnail's UICollectionView.
+ */
 class ThumbnailManager: NSObject {
 
   struct Constants {

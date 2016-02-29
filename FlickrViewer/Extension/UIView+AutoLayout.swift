@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ UIView extension to add snippet codes to activate and deactivate constraints.
+ */
 extension UIView {
 
   func activateConstraints(constraints: [NSLayoutConstraint]) {

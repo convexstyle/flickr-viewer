@@ -9,6 +9,10 @@
 import UIKit
 import FontAwesome_swift
 
+
+/**
+ Custom UICollectionView cell of thumbnail's UICollectionView.
+ */
 class ThumbnailCollectionViewCell: UICollectionViewCell {
   
   let imageView: UIImageView

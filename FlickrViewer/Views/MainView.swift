@@ -9,6 +9,10 @@
 import UIKit
 import FontAwesome_swift
 
+
+/**
+ The view of MainViewController
+ */
 class MainView: UIView {
   
   let imageCollectionView: UICollectionView
@@ -42,6 +46,8 @@ class MainView: UIView {
   
 }
 
+
+// MARK: - Constrainable
 extension MainView: Constrainable {
   func initViews() {
     backgroundColor = .appDarkGreyColor()

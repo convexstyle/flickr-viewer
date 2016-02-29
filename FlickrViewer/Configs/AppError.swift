@@ -8,6 +8,9 @@
 
 import Foundation
 
+/**
+ Manage app level error type.
+ */
 enum FlickrError: ErrorType {
   case LoadError
   case JsonFormatError
