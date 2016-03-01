@@ -57,4 +57,4 @@ Flickr Viewer is using [Quick](https://github.com/Quick/Quick "Quick") and [Nimb
 Select one of simulators such as iPhone 6s Plus.
 
 ## Known issues
-- There are some flowLayout isses when iPad rotates. The setting of Universal app has this vital issue.
+- There are some flowLayout issues when iPad rotates. The setting of Universal app has this vital issue.
