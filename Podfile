@@ -18,6 +18,9 @@ def main_pods
 
   # Assets
   pod 'FontAwesome.swift', '~> 0.7.0'
+
+  # Network
+  pod 'ReachabilitySwift', '~> 2.3.3'
 end
 
 def testing_pods

@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- Manage app level error type.
+ Manage Flicker error type.
  */
 enum FlickrError: ErrorType {
   case LoadError
@@ -31,6 +31,20 @@ enum FlickrError: ErrorType {
     case .SystemError(let error):
       return error.localizedDescription
       
+    }
+  }
+}
+
+/**
+Manage Connection error type.
+*/
+enum ConnectionError: ErrorType {
+  case NoConnection
+  
+  var description: String {
+    switch self {
+    case .NoConnection:
+      return NSLocalizedString("internetConnectionErrorDescription", tableName: "App", value: "", comment: "No connection error")
     }
   }
 }

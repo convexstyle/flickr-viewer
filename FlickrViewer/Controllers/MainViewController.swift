@@ -11,6 +11,7 @@ import SafariServices
 import FontAwesome_swift
 import SVProgressHUD
 import TSMessages
+import ReachabilitySwift
 
 class MainViewController: UIViewController {
   
@@ -21,19 +22,35 @@ class MainViewController: UIViewController {
     }
   }
   
+  /**
+   The initial NSIndexPath for both Large image's collectionView and thumbnail collectionView
+   */
   let initIndexPath = NSIndexPath(forItem: 0, inSection: 0)
   
+  /**
+   The current NSIndexPath of large image's collectionView
+   */
   var currentIndexPath = NSIndexPath(forItem: 0, inSection: 0)
+  
+  /**
+   The items of Large image's collectionView
+   */
   var items = [FlickrItem]() {
     didSet {
       imageCollectionView.reloadData()
     }
   }
   
+  /**
+   Variable to check items is set
+  */
   var dataSourceReady: Bool {
     return items.count > 0
   }
   
+  /**
+   Variable to check the availability of external link
+   */
   var externalLinkExist: Bool {
     return dataSourceReady && currentIndexPath.item < items.count && items[currentIndexPath.item].link != nil
   }
@@ -62,6 +79,10 @@ class MainViewController: UIViewController {
   }()
   
   lazy var sharedApplication: UIApplication =  UIApplication.sharedApplication()
+  
+  lazy var appDelegate: AppDelegate? = {
+    return self.sharedApplication.delegate as? AppDelegate
+  }()
   
   
   // MARK: - Life cycle
@@ -128,6 +149,20 @@ class MainViewController: UIViewController {
     
     // Fetch Feed
     fetchFeed()
+  }
+  
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    // Add observer
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChangedHandler:", name: ReachabilityChangedNotification, object: appDelegate?.reachability)
+  }
+  
+  override func viewWillDisappear(animated: Bool) {
+    super.viewWillDisappear(animated)
+    
+    // Remove observers
+    NSNotificationCenter.defaultCenter().removeObserver(self)
   }
   
   
@@ -276,10 +311,36 @@ extension MainViewController {
   /**
    Set accessibilityIdentifier for UITests
    */
-  private func setIdentifiers() {
+  func setIdentifiers() {
     externalLinkButton.accessibilityIdentifier = "externalLinkButton"
     imageCollectionView.accessibilityIdentifier = "imageCollectionView"
     thumbnailCollectionView.accessibilityIdentifier = "thumbnailCollectionView"
+  }
+}
+
+
+// MARK: - Notification handlers
+extension MainViewController {
+  /**
+   Whenener the connection status changes, reachabilityChangedHandler is called.
+   
+   - parameter notification: NSNotification object
+  */
+  func reachabilityChangedHandler(notification: NSNotification) {
+    // Just in case, notification is sent before this view is loaded. Usually, it doesn't happen.
+    if let reachability = notification.object as? Reachability where self.isViewLoaded() == true {
+      // When internet connection is back and items is still unset, then, fetch feed.
+      if reachability.isReachable() {
+        if items.count == 0 {
+          fetchFeed()
+        }
+      } else {
+        // Avoid autoLayout background thread issue.
+        dispatch_async(dispatch_get_main_queue(), {
+          self.presentAlertControllerWithAlertStyle(title: AppData.errorTitle, message: ConnectionError.NoConnection.description)
+        })
+      }
+    }
   }
 }
 

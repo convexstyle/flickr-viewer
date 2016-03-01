@@ -9,18 +9,20 @@
 import UIKit
 import UIColor_Hex_Swift
 import SVProgressHUD
+import ReachabilitySwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   var window: UIWindow?
-
+  var reachability: Reachability?
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
     window = UIWindow(frame: UIScreen.mainScreen().bounds)
     
     setAppearance()
+    setReachability()
     
     let mainViewController     = MainViewController()
     let navigationController   = UINavigationController(rootViewController: mainViewController)
@@ -78,6 +80,28 @@ extension AppDelegate {
     SVProgressHUD.setDefaultMaskType(.Clear)
     SVProgressHUD.setBackgroundColor(UIColor(rgba: "#3466b0"))
     SVProgressHUD.setForegroundColor(UIColor.whiteColor())
+  }
+}
+
+
+// MARK: - Reachability
+extension AppDelegate {
+  /**
+   Set reachability for the connection
+   */
+  func setReachability() {
+    do {
+      reachability = try Reachability.reachabilityForInternetConnection()
+    } catch {
+      print("reachability is not available in this device.")
+      return
+    }
+    
+    do{
+      try reachability?.startNotifier()
+    } catch {
+      print("could not start reachability notifier")
+    }
   }
 }
 

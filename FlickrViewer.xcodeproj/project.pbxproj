@@ -43,6 +43,7 @@
 		669A14811C81E56200B867B5 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 669A14801C81E56200B867B5 /* SafariServices.framework */; };
 		669A14851C81EF5900B867B5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 669A14841C81EF5900B867B5 /* InfoPlist.strings */; };
 		669A14891C81FE0700B867B5 /* FlickrJsonParserSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A14881C81FE0700B867B5 /* FlickrJsonParserSpec.swift */; };
+		66C6112C1C85A822007265C5 /* UIViewController+AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C6112B1C85A822007265C5 /* UIViewController+AlertController.swift */; };
 		7D107641A5D2CCB9D22BD49B /* Pods_FlickrViewerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0161F8081081BE4C259893AF /* Pods_FlickrViewerUITests.framework */; };
 		A90788DB7BF610BF9D5ED649 /* Pods_FlickrViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D1756E832BF8CFF37BDAB5 /* Pods_FlickrViewer.framework */; };
 /* End PBXBuildFile section */
@@ -110,6 +111,7 @@
 		669A14801C81E56200B867B5 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		669A14841C81EF5900B867B5 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		669A14881C81FE0700B867B5 /* FlickrJsonParserSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlickrJsonParserSpec.swift; path = Unit/Services/FlickrJsonParserSpec.swift; sourceTree = "<group>"; };
+		66C6112B1C85A822007265C5 /* UIViewController+AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+AlertController.swift"; path = "Extension/UIViewController+AlertController.swift"; sourceTree = "<group>"; };
 		90D1756E832BF8CFF37BDAB5 /* Pods_FlickrViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlickrViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD2ACD2C72F1ED2A159F6953 /* Pods-FlickrViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickrViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlickrViewer/Pods-FlickrViewer.debug.xcconfig"; sourceTree = "<group>"; };
 		D3A1B0B1C2A1ECD5026AEAE6 /* Pods_FlickrViewerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlickrViewerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -289,6 +291,7 @@
 				669A147E1C81DE6F00B867B5 /* UIFont+AppFont.swift */,
 				669A14751C81C29A00B867B5 /* UIFont+Snippet.swift */,
 				664C6FF01C7C7BBF00F884AC /* UIView+AutoLayout.swift */,
+				66C6112B1C85A822007265C5 /* UIViewController+AlertController.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -650,6 +653,7 @@
 				664C70031C7CBE9100F884AC /* PhotoItem.swift in Sources */,
 				669A147B1C81DD4600B867B5 /* AppFont.swift in Sources */,
 				6622117B1C7F3709005D60DC /* FlickrJsonParser.swift in Sources */,
+				66C6112C1C85A822007265C5 /* UIViewController+AlertController.swift in Sources */,
 				669A147D1C81DDF800B867B5 /* AppFontSize.swift in Sources */,
 				664C6FB91C7C71C900F884AC /* AppDelegate.swift in Sources */,
 				664C6FEB1C7C7AA900F884AC /* MainView.swift in Sources */,

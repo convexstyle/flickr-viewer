@@ -9,6 +9,12 @@
 import UIKit
 
 protocol ThumbnailManagerDelegate: class {
+  /**
+   Delegate method to notify the current selected NSIndexPath
+   
+   - parameter sender: ThumbnailManager instance
+   - parameter path: Selected NSIndexPath
+  */
   func cellDidSelect(sender: ThumbnailManager, path: NSIndexPath)
 }
 
