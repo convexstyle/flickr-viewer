@@ -28,19 +28,30 @@ class MainViewControllerSpec: QuickSpec {
         }
       }
       
+      class UICollectionViewMock: UICollectionView {}
+      
       let mainViewControllerMock: MainViewControllerMock = MainViewControllerMock()
+      let collectionViewMock = UICollectionViewMock(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
+      
       
       describe("#items") {
         var items = [FlickrItem]()
         
         beforeEach {
           items = [FlickrItem(), FlickrItem() ,FlickrItem()]
+          mainViewControllerMock.items = items
+        }
+        
+        afterEach {
+          mainViewControllerMock.items = [FlickrItem]()
         }
         
         it("dataSourceReady should be true") {
-          mainViewControllerMock.items = items
-          
           expect(mainViewControllerMock.dataSourceReady).to(beTrue())
+        }
+        
+        it("numberOfItemsInSection should be the number of items") {
+          expect(mainViewControllerMock.collectionView(collectionViewMock, numberOfItemsInSection: 1)).to(equal(items.count))
         }
       }
       
