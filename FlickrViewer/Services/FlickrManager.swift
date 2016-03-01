@@ -43,7 +43,7 @@ class FlickrManager {
             return
           }
           
-          guard let flickrItems = FlickrJsonParser.parseJson(data) else {
+          guard var flickrItems = FlickrJsonParser.parseJson(data) else {
             print("\(Router.PublicFeed.URL.absoluteString)?\(FlickrJsonParser.createQueryStringWithParameters(Router.PublicFeed.parameters)) returns wrong json format.")
             defered.reject(FlickrError.JsonFormatError)
             return
@@ -53,6 +53,10 @@ class FlickrManager {
             print("\(Router.PublicFeed.URL.absoluteString)?\(FlickrJsonParser.createQueryStringWithParameters(Router.PublicFeed.parameters)) returns no items.")
             defered.reject(FlickrError.NoDataError)
           } else {
+            
+            // Check the availablity of each item before resolving the promise
+            flickrItems = flickrItems.filter({ $0.available })
+            
             defered.fulfill(flickrItems)
           }
           

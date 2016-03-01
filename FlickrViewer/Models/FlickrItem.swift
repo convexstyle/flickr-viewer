@@ -35,16 +35,11 @@ class FlickrItem {
   }()
   
   var originalImage: String? {
-    guard let mediumImage = mediumImage else {
+    if slugImagePath == nil {
       return nil
     }
     
-    let result = FlickrJsonParser.getSlugImagePath(mediumImage)
-    if result == nil {
-      return nil
-    }
-    
-    return "\(result!).jpg"
+    return "\(slugImagePath!).jpg"
   }
   
   var mediumImage: String? {    
@@ -52,29 +47,19 @@ class FlickrItem {
   }
   
   var smallImage: String? {
-    guard let mediumImage = mediumImage else {
+    if slugImagePath == nil {
       return nil
     }
     
-    let result = FlickrJsonParser.getSlugImagePath(mediumImage)
-    if result == nil {
-      return nil
-    }
-    
-    return "\(result!)_s.jpg"
+    return "\(slugImagePath!)_s.jpg"
   }
   
   var thumbnailImage: String? {
-    guard let mediumImage = mediumImage else {
+    if slugImagePath == nil {
       return nil
     }
     
-    let result = FlickrJsonParser.getSlugImagePath(mediumImage)
-    if result == nil {
-      return nil
-    }
-    
-    return "\(result!)_t.jpg"
+    return "\(slugImagePath!)_t.jpg"
   }
   
   var link: String? {
