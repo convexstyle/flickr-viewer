@@ -10,6 +10,7 @@
 
 import Quick
 import Nimble
+import SwiftyJSON
 
 class ThumbnailManagerSpec: QuickSpec {
   
@@ -44,7 +45,7 @@ class ThumbnailManagerSpec: QuickSpec {
           collectionViewMock = UICollectionViewMock(frame: CGRectZero, collectionViewLayout: flowLayout)
           
           thumbnailManager.collectionView = collectionViewMock
-          thumbnailManager.items = [ FlickrItem(), FlickrItem(), FlickrItem() ]
+          thumbnailManager.items = [ FlickrItem(item: mockJSON), FlickrItem(item: mockJSON), FlickrItem(item: mockJSON) ]
         }
         
         afterEach {
@@ -72,7 +73,7 @@ class ThumbnailManagerSpec: QuickSpec {
           delegateMock = ThumbnailManagerDelegateMock()
           
           thumbnailManager.delegate = delegateMock
-          thumbnailManager.items = [ FlickrItem(), FlickrItem(), FlickrItem() ]
+          thumbnailManager.items = [ FlickrItem(item: mockJSON), FlickrItem(item: mockJSON), FlickrItem(item: mockJSON) ]
         }
         
         afterEach {

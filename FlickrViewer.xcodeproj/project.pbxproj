@@ -44,6 +44,8 @@
 		669A14851C81EF5900B867B5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 669A14841C81EF5900B867B5 /* InfoPlist.strings */; };
 		669A14891C81FE0700B867B5 /* FlickrJsonParserSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A14881C81FE0700B867B5 /* FlickrJsonParserSpec.swift */; };
 		66C6112C1C85A822007265C5 /* UIViewController+AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C6112B1C85A822007265C5 /* UIViewController+AlertController.swift */; };
+		66C6112E1C85BB98007265C5 /* items-no-link.json in Resources */ = {isa = PBXBuildFile; fileRef = 66C6112D1C85BB98007265C5 /* items-no-link.json */; };
+		66C611301C85BD91007265C5 /* MockObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C6112F1C85BD91007265C5 /* MockObject.swift */; };
 		7D107641A5D2CCB9D22BD49B /* Pods_FlickrViewerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0161F8081081BE4C259893AF /* Pods_FlickrViewerUITests.framework */; };
 		A90788DB7BF610BF9D5ED649 /* Pods_FlickrViewer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90D1756E832BF8CFF37BDAB5 /* Pods_FlickrViewer.framework */; };
 /* End PBXBuildFile section */
@@ -112,6 +114,8 @@
 		669A14841C81EF5900B867B5 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		669A14881C81FE0700B867B5 /* FlickrJsonParserSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlickrJsonParserSpec.swift; path = Unit/Services/FlickrJsonParserSpec.swift; sourceTree = "<group>"; };
 		66C6112B1C85A822007265C5 /* UIViewController+AlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+AlertController.swift"; path = "Extension/UIViewController+AlertController.swift"; sourceTree = "<group>"; };
+		66C6112D1C85BB98007265C5 /* items-no-link.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = "items-no-link.json"; path = "Unit/Fixtures/items-no-link.json"; sourceTree = "<group>"; };
+		66C6112F1C85BD91007265C5 /* MockObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockObject.swift; path = Unit/Misc/MockObject.swift; sourceTree = "<group>"; };
 		90D1756E832BF8CFF37BDAB5 /* Pods_FlickrViewer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlickrViewer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD2ACD2C72F1ED2A159F6953 /* Pods-FlickrViewer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlickrViewer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlickrViewer/Pods-FlickrViewer.debug.xcconfig"; sourceTree = "<group>"; };
 		D3A1B0B1C2A1ECD5026AEAE6 /* Pods_FlickrViewerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlickrViewerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -176,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				66321A701C8283E8006A9DBF /* feed.json */,
+				66C6112D1C85BB98007265C5 /* items-no-link.json */,
 				66321A6C1C8271AC006A9DBF /* items.json */,
 			);
 			name = Fixtures;
@@ -184,6 +189,7 @@
 		66321A691C8270A7006A9DBF /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				66C6112F1C85BD91007265C5 /* MockObject.swift */,
 				66321A6A1C8270CF006A9DBF /* TestHelper.swift */,
 			);
 			name = Misc;
@@ -508,6 +514,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66321A6D1C8271AC006A9DBF /* items.json in Resources */,
+				66C6112E1C85BB98007265C5 /* items-no-link.json in Resources */,
 				66321A711C8283E8006A9DBF /* feed.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -681,6 +688,7 @@
 				669A14891C81FE0700B867B5 /* FlickrJsonParserSpec.swift in Sources */,
 				66321A6F1C827766006A9DBF /* FlickrManagerSpec.swift in Sources */,
 				66321A741C82D467006A9DBF /* MainControllerSpec.swift in Sources */,
+				66C611301C85BD91007265C5 /* MockObject.swift in Sources */,
 				66321A761C830B78006A9DBF /* ThumbnailManagerSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

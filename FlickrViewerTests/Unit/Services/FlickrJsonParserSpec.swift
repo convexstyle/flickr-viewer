@@ -11,6 +11,7 @@
 import XCTest
 import Quick
 import Nimble
+import SwiftyJSON
 
 
 class FlickrJsonParserSpec: QuickSpec {
@@ -30,15 +31,10 @@ class FlickrJsonParserSpec: QuickSpec {
           var expected = [FlickrItem]()
           
           beforeEach {
-            let data = fixtureDataFromFile("items")!
-            result = FlickrJsonParser.parseJson(data)
+            result = FlickrJsonParser.parseJson(mockItemsData)
             
-            var flickrItem = FlickrItem()
-            flickrItem.originalImage = "https://farm2.staticflickr.com/1657/24583733284_f545af71a3.jpg"
-            flickrItem.mediumImage = "https://farm2.staticflickr.com/1657/24583733284_f545af71a3_m.jpg"
-            flickrItem.smallImage = "https://farm2.staticflickr.com/1657/24583733284_f545af71a3_s.jpg"
-            flickrItem.thumbnailImage = "https://farm2.staticflickr.com/1657/24583733284_f545af71a3_t.jpg"
-            expected.append(flickrItem)
+            // Assign each JSON object to FlickrItem model.
+            expected.append(FlickrItem(item: mockItem))
           }
           
           it("count should be the same") {

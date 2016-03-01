@@ -22,6 +22,7 @@ class FlickrJsonParser {
   class func parseJson(data: NSData) -> [FlickrItem]? {
     var flickrItems: [FlickrItem]?
     
+    // Convert NSData to [JSON] object
     let json = JSON(data: data)
     
     guard let items = json["items"].array else {
@@ -29,24 +30,11 @@ class FlickrJsonParser {
     }
     
     flickrItems = [FlickrItem]()
-    
+
+    // Assign each JSON object to FlickrItem model.
     for item in items {
-      let link = item["link"].string
-      let mediumImageURL = item["media"]["m"].string
-      
-      if let mediumImageURL = mediumImageURL {
-        let slugImageURL = FlickrJsonParser.getSlugImagePath(mediumImageURL)
-        
-        var item = FlickrItem()
-        item.originalImage = "\(slugImageURL).jpg"
-        item.mediumImage = mediumImageURL
-        item.thumbnailImage = "\(slugImageURL)_t.jpg"
-        item.smallImage = "\(slugImageURL)_s.jpg"
-        item.link = link
-        
-        flickrItems?.append(item)
-      }
-      
+      let flickrItem = FlickrItem(item: item)
+      flickrItems?.append(flickrItem)
     }
     
     return flickrItems

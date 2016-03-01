@@ -10,6 +10,7 @@
 
 import Quick
 import Nimble
+import SwiftyJSON
 
 class MainViewControllerSpec: QuickSpec {
   override func spec() {
@@ -33,12 +34,11 @@ class MainViewControllerSpec: QuickSpec {
       let mainViewControllerMock: MainViewControllerMock = MainViewControllerMock()
       let collectionViewMock = UICollectionViewMock(frame: CGRectZero, collectionViewLayout: UICollectionViewFlowLayout())
       
-      
       describe("#items") {
         var items = [FlickrItem]()
         
         beforeEach {
-          items = [FlickrItem(), FlickrItem() ,FlickrItem()]
+          items = [ FlickrItem(item: mockItem) ]
           mainViewControllerMock.items = items
         }
         
@@ -65,17 +65,16 @@ class MainViewControllerSpec: QuickSpec {
       }
       
       describe("#externalLinkExist") {
-        
+
         afterEach {
            mainViewControllerMock.items = [FlickrItem]()
         }
         
         context("when link is set in the first FlickrItem") {
           beforeEach {
-            var item = FlickrItem()
-            item.link = "http://www.test.com"
+            let item = FlickrItem(item: mockItem)
             
-            mainViewControllerMock.items = [item]
+            mainViewControllerMock.items = [ item ]
           }
           
           it("should be true") {
@@ -90,8 +89,7 @@ class MainViewControllerSpec: QuickSpec {
         
         context("when the link is nil in the first FlickrItem") {
           beforeEach {
-            var item = FlickrItem()
-            item.link = nil
+            let item = FlickrItem(item: mockNoLinkItem)
             
             mainViewControllerMock.items = [item]
           }
@@ -108,15 +106,13 @@ class MainViewControllerSpec: QuickSpec {
       }
       
       describe("#externalLinkButtonTouchUpInside") {
-        
         afterEach {
           mainViewControllerMock.isPresentSFSafariViewControllerWithURLCalled = false
         }
         
         context("when item.link exists") {
           beforeEach {
-            var item = FlickrItem()
-            item.link = "http://www.test.com"
+            let item = FlickrItem(item: mockItem)
             
             mainViewControllerMock.items = [item]
           }
@@ -131,8 +127,7 @@ class MainViewControllerSpec: QuickSpec {
         
         context("when item.link is nil") {
           beforeEach {
-            var item = FlickrItem()
-            item.link = nil
+            let item = FlickrItem(item: mockNoLinkItem)
             
             mainViewControllerMock.items = [item]
           }
