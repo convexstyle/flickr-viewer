@@ -66,9 +66,15 @@ class FlickrJsonParser {
    
    - returns: The slug image url
    */
-  class func getSlugImagePath(imageURL: String) -> String {
+  class func getSlugImagePath(imageURL: String) -> String? {
     let pattern = "(https:\\/\\/.*)_m\\.jpg"
-    return imageURL.stringByReplacingOccurrencesOfString(pattern, withString: "$1", options: NSStringCompareOptions.RegularExpressionSearch, range: nil)
+    let result = imageURL.stringByReplacingOccurrencesOfString(pattern, withString: "$1", options: NSStringCompareOptions.RegularExpressionSearch, range: nil)
+    
+    if result == imageURL {
+      return nil
+    }
+    
+    return result
   }
   
   

@@ -8,7 +8,6 @@
 
 @testable import FlickrViewer
 
-import XCTest
 import Quick
 import Nimble
 import SwiftyJSON
@@ -67,6 +66,13 @@ class FlickrJsonParserSpec: QuickSpec {
           let result = FlickrJsonParser.getSlugImagePath(imagePath)
           
           expect(result).to(equal("https://farm2.staticflickr.com/1565/24587574523_bcb6492ee3"))
+        }
+        
+        it("return nil") {
+          let imagePath = "test"
+          let result = FlickrJsonParser.getSlugImagePath(imagePath)
+          
+          expect(result).to(beNil())
         }
       }
       

@@ -23,3 +23,9 @@ let mockItemsNoLinkData = fixtureDataFromFile("items-no-link")!
 let mockNoLinkJSON = JSON(data: mockItemsNoLinkData)
 let mockNoLinkItems = mockNoLinkJSON["items"].array!
 let mockNoLinkItem = mockNoLinkItems.first!
+
+// Mock object for empty link and medium image item
+let mockItemsEmptyData = fixtureDataFromFile("items-empty")!
+let mockEmptyJSON = JSON(data: mockItemsEmptyData)
+let mockEmptyItems = mockEmptyJSON["items"].array!
+let mockEmptyItem = mockEmptyItems.first!
