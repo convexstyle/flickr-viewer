@@ -1,6 +1,6 @@
 #Flickr Viewer
 
-![Flickr Viewer](https://raw.githubusercontent.com/convexstyle/flickr-viewer/refactor-views/assets/flickr-viewer-logo.png "Flickr Viewer")
+![Flickr Viewer](https://raw.githubusercontent.com/convexstyle/flickr-viewer/master/assets/flickr-viewer-logo.png "Flickr Viewer")
 
 Flickr Viewer is a sample application that displays the photos of [Flickr](https://www.flickr.com/ "Flickr") public time.
 
@@ -55,3 +55,6 @@ Flickr Viewer is using [Quick](https://github.com/Quick/Quick "Quick") and [Nimb
 **Command + U** to run UITests.
 
 Select one of simulators such as iPhone 6s Plus.
+
+## Known issues
+- There are some flowLayout isses when iPad rotates. The setting of Universal app has this vital issue.
