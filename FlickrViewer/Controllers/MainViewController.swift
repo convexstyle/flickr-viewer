@@ -7,7 +7,11 @@
 //
 
 import UIKit
+import SafariServices
 import FontAwesome_swift
+import SVProgressHUD
+import TSMessages
+import ReachabilitySwift
 
 class MainViewController: UIViewController {
   
@@ -15,36 +19,69 @@ class MainViewController: UIViewController {
     struct Keys {
       static let imageCollectionCellId = "MainViewController.imageCollectionCellId"
       static let thumbnailCollectionCellId = "MainViewController.thumbnailCollectionCellId"
-      static let defaultCollectionCellId = "MainViewController.defaultCollectionCellId"
     }
   }
   
+  /**
+   The initial NSIndexPath for both Large image's collectionView and thumbnail collectionView
+   */
   let initIndexPath = NSIndexPath(forItem: 0, inSection: 0)
   
+  /**
+   The current NSIndexPath of large image's collectionView
+   */
   var currentIndexPath = NSIndexPath(forItem: 0, inSection: 0)
+  
+  /**
+   The items of Large image's collectionView
+   */
   var items = [FlickrItem]() {
     didSet {
-      mainView.imageCollectionView.reloadData()
+      imageCollectionView.reloadData()
     }
   }
+  
+  /**
+   Variable to check items is set
+  */
   var dataSourceReady: Bool {
     return items.count > 0
   }
   
+  /**
+   Variable to check the availability of external link
+   */
+  var externalLinkExist: Bool {
+    return dataSourceReady && currentIndexPath.item < items.count && items[currentIndexPath.item].link != nil
+  }
+  
+  lazy var unknownError: String = NSLocalizedString("unknownError", tableName: "App", comment: "Unknown Error")
   lazy var mainView: MainView = MainView()
   lazy var flickrManager: FlickrManager = FlickrManager.sharedInstance
   lazy var thumbnailManager: ThumbnailManager = {
     let manager = ThumbnailManager()
     manager.delegate = self
-    manager.collectionView = self.mainView.navCollectionView
+    manager.collectionView = self.thumbnailCollectionView
     
     return manager
   }()
+  
   lazy var imageCollectionView: UICollectionView = {
     return self.mainView.imageCollectionView
   }()
+  
   lazy var thumbnailCollectionView: UICollectionView = {
     return self.mainView.navCollectionView
+  }()
+  
+  lazy var externalLinkButton: UIButton = {
+    return self.mainView.externalLinkButton
+  }()
+  
+  lazy var sharedApplication: UIApplication =  UIApplication.sharedApplication()
+  
+  lazy var appDelegate: AppDelegate? = {
+    return self.sharedApplication.delegate as? AppDelegate
   }()
   
   
@@ -67,8 +104,11 @@ class MainViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-   
-    // Layout Stype
+    
+    // Add identifiers for UITests
+    setIdentifiers()
+    
+    // NOTE: Using edgesForExtendedLayout for layout style produces some warnings when the orientation changes.
 //    edgesForExtendedLayout = UIRectEdge.None
     
     automaticallyAdjustsScrollViewInsets = false
@@ -79,122 +119,229 @@ class MainViewController: UIViewController {
     refreshButton.action = "refreshButtonTouchUpInside:"
     let attributes = [
       NSFontAttributeName: UIFont.fontAwesomeOfSize(20),
-      NSForegroundColorAttributeName: UIColor.blackColor()
+      NSForegroundColorAttributeName: UIColor.whiteColor()
     ] as Dictionary!
     refreshButton.setTitleTextAttributes(attributes, forState: UIControlState.Normal)
     refreshButton.title = String.fontAwesomeIconWithName(FontAwesome.Refresh)
     navigationItem.rightBarButtonItem = refreshButton
     
     // Large images
-    mainView.imageCollectionView.registerClass(ImageCollectionViewCell.self, forCellWithReuseIdentifier: Constants.Keys.imageCollectionCellId)
-    mainView.imageCollectionView.showsVerticalScrollIndicator = false
-    mainView.imageCollectionView.showsHorizontalScrollIndicator = false
-    mainView.imageCollectionView.alwaysBounceHorizontal = true
-    mainView.imageCollectionView.pagingEnabled = true
-    mainView.imageCollectionView.delegate = self
-    mainView.imageCollectionView.clipsToBounds = false
-    mainView.imageCollectionView.dataSource = self
+    imageCollectionView.registerClass(ImageCollectionViewCell.self, forCellWithReuseIdentifier: Constants.Keys.imageCollectionCellId)
+    imageCollectionView.showsVerticalScrollIndicator = false
+    imageCollectionView.showsHorizontalScrollIndicator = false
+    imageCollectionView.alwaysBounceHorizontal = true
+    imageCollectionView.pagingEnabled = true
+    imageCollectionView.delegate = self
+    imageCollectionView.clipsToBounds = false
+    imageCollectionView.dataSource = self
     
     // Thumbnails
-    mainView.navCollectionView.registerClass(ThumbnailCollectionViewCell.self, forCellWithReuseIdentifier: ThumbnailManager.Constants.Keys.thumbnailCellId)
-    mainView.navCollectionView.showsVerticalScrollIndicator = false
-    mainView.navCollectionView.showsHorizontalScrollIndicator = false
-    mainView.navCollectionView.alwaysBounceHorizontal = true
-    mainView.navCollectionView.pagingEnabled = false
-    mainView.navCollectionView.delegate = thumbnailManager
-    mainView.navCollectionView.dataSource = thumbnailManager
+    thumbnailCollectionView.registerClass(ThumbnailCollectionViewCell.self, forCellWithReuseIdentifier: ThumbnailManager.Constants.Keys.thumbnailCellId)
+    thumbnailCollectionView.showsVerticalScrollIndicator = false
+    thumbnailCollectionView.showsHorizontalScrollIndicator = false
+    thumbnailCollectionView.alwaysBounceHorizontal = true
+    thumbnailCollectionView.pagingEnabled = false
+    thumbnailCollectionView.delegate = thumbnailManager
+    thumbnailCollectionView.dataSource = thumbnailManager
+    
+    // External button
+    externalLinkButton.addTarget(self, action: "externalLinkButtonTouchUpInside:", forControlEvents: UIControlEvents.TouchUpInside)
     
     // Fetch Feed
     fetchFeed()
   }
   
+  override func viewWillAppear(animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    // Add observer
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChangedHandler:", name: ReachabilityChangedNotification, object: appDelegate?.reachability)
+  }
   
-  // MARK: - Button
+  override func viewWillDisappear(animated: Bool) {
+    super.viewWillDisappear(animated)
+    
+    // Remove observers
+    NSNotificationCenter.defaultCenter().removeObserver(self)
+  }
+  
+  
+  // MARK: - Refresh flickr feed
+  /**
+  Event handler method called after refresh button is tapped
+  
+  - parameter sender: UIBarButtonItem object
+  */
   func refreshButtonTouchUpInside(sender: UIBarButtonItem) {
     fetchFeed()
   }
   
   
+  // MARK: - Open SFsafariViewController to show a current Flickr page
+  /**
+  Event handler method called after external link button is tapped
+  
+  - parameter sender: UIButton object
+  */
+  func externalLinkButtonTouchUpInside(sender: UIButton) {
+    if let link = items[currentIndexPath.item].link, url = NSURL(string: link) {
+      // Update statusBarStyle
+      sharedApplication.statusBarStyle = UIStatusBarStyle.Default
+      
+      // Open Flickr page with SFSafariViewController
+      presentSFSafariViewControllerWithURL(url)
+    }
+  }
+  
+  
   // MARK: - Load feed
+  /**
+  Load latest public feed json from Flickr
+  */
   func fetchFeed() {
-    // TODO: - Error and HUD
+    SVProgressHUD.show()
+    
     flickrManager.fetchFeed().then { items -> Void in
       self.items = items
       self.thumbnailManager.items = items
       
       self.selectImageItemAtIndexPath(self.initIndexPath, animated: false)
       self.selectThumbnailItemAtIndexPath(self.initIndexPath, animated: false)
+      self.updateExternalLinkButton()
+      
+      }.always { _ -> Void in
+        SVProgressHUD.dismiss()
+        
       }.error { error -> Void in
         if let error = error as? FlickrError {
-          print("error >>> \(error.description)")
+          // Show FlickrError description
+          TSMessage.showNotificationWithTitle("Error", subtitle: error.description, type: .Error)
+          
         } else {
-          print("error default")
+          // Show unknown error from library or system
+          TSMessage.showNotificationWithTitle("Error", subtitle: self.unknownError, type: .Error)
+          
         }
-    }
+        
+      }
   }
   
   
-  // MARK: - Cell
+  // MARK: - Open SFSafariViewController
+  /**
+  Open SFSafariViewController
+  
+  - parameter url: NSURL object
+  */
+  func presentSFSafariViewControllerWithURL(url: NSURL) {
+    let safariViewController = SFSafariViewController(URL: url)
+    safariViewController.modalTransitionStyle = .CoverVertical
+    safariViewController.modalPresentationStyle = .OverFullScreen
+    safariViewController.delegate = self
+    self.presentViewController(safariViewController, animated: true, completion: nil)
+  }
+  
+  
+  // MARK: - Update externalLinkButton
+  func updateExternalLinkButton() {
+    externalLinkButton.hidden = !externalLinkExist
+  }
+  
+  
+  // MARK: - Select current cells
+  /**
+  Select current thumbail and move to it
+  
+  - parameter path: NSIndexPath to select
+  - parameter animated: Should animate or not
+  - parameter scrollPosition: Which side of cell to be aligned
+  */
   func selectThumbnailItemAtIndexPath(path: NSIndexPath, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .Left) {
     // Select cell
-    let selectedCell = mainView.navCollectionView.cellForItemAtIndexPath(path)
+    let selectedCell = thumbnailCollectionView.cellForItemAtIndexPath(path)
     selectedCell?.selected = true
     
     // Move to the selected cell
-    mainView.navCollectionView.selectItemAtIndexPath(path, animated: animated, scrollPosition: scrollPosition)
+    thumbnailCollectionView.selectItemAtIndexPath(path, animated: animated, scrollPosition: scrollPosition)
     
     currentIndexPath = path
   }
   
+  /**
+   Select current image and move to it
+   
+   - parameter path: NSIndexPath to select
+   - parameter animated: Should animate or not
+   - parameter scrollPosition: Which side of cell to be aligned
+   */
   func selectImageItemAtIndexPath(path: NSIndexPath, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .Left) {
-    mainView.imageCollectionView.selectItemAtIndexPath(path, animated: animated, scrollPosition: scrollPosition)
+    imageCollectionView.selectItemAtIndexPath(path, animated: animated, scrollPosition: scrollPosition)
   }
   
   
   // MARK: - Orientation
   override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
     super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
-    
-    if dataSourceReady {
-//      mainView.imageCollectionView.performBatchUpdates(nil, completion: nil)
-//      mainView.imageCollectionView.setContentOffset(CGPoint(x: size.width * CGFloat(currentIndexPath.item), y: 0), animated: false)
-//      for cell in mainView.imageCollectionView.visibleCells() {
-//        if let cell = cell as? ImageCollectionViewCell {
-//          cell.imageView.contentMode = UIViewContentMode.ScaleAspectFit
-//        }
-//      }
-      
-//      let thumbnailsTargetX = size.width/4 * CGFloat(min(currentIndexPath.item, 16))
-//      mainView.navCollectionView.setContentOffset(CGPoint(x: thumbnailsTargetX, y: 0), animated: false)
-    }
-    
-    print("mainView.imageCollectionView.frame.size.width 1 ---> \(mainView.imageCollectionView.frame.size.width)")
-    mainView.layoutIfNeeded()
-    mainView.imageCollectionView.layoutIfNeeded()
-    mainView.imageCollectionView.collectionViewLayout.invalidateLayout()
-    mainView.imageCollectionView.setContentOffset(CGPoint(x: mainView.imageCollectionView.frame.size.width * CGFloat(currentIndexPath.item), y: 0), animated: false)
   }
   
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
-    print("mainView.imageCollectionView.frame.size.width 3 ---> \(mainView.imageCollectionView.frame.size.width)")
-    
-    mainView.layoutIfNeeded()
-    mainView.imageCollectionView.setContentOffset(CGPoint(x: mainView.imageCollectionView.frame.size.width * CGFloat(currentIndexPath.item), y: 0), animated: false)
+    if dataSourceReady {
+      mainView.layoutIfNeeded()
+      imageCollectionView.selectItemAtIndexPath(currentIndexPath, animated: false, scrollPosition: UICollectionViewScrollPosition.Left)
+      thumbnailCollectionView.selectItemAtIndexPath(currentIndexPath, animated: false, scrollPosition: UICollectionViewScrollPosition.Left)
+    }
   }
   
   override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
     
     if traitCollection != previousTraitCollection {
-      mainView.imageCollectionView.collectionViewLayout.invalidateLayout()
-      mainView.navCollectionView.collectionViewLayout.invalidateLayout()
+      imageCollectionView.collectionViewLayout.invalidateLayout()
+      thumbnailCollectionView.collectionViewLayout.invalidateLayout()
     }
-    
-    print("mainView.imageCollectionView.frame.size.width 2 ---> \(mainView.imageCollectionView.frame.size.width)")
   }
   
+}
+
+
+// MARK: - UITests
+extension MainViewController {
+  /**
+   Set accessibilityIdentifier for UITests
+   */
+  func setIdentifiers() {
+    externalLinkButton.accessibilityIdentifier = "externalLinkButton"
+    imageCollectionView.accessibilityIdentifier = "imageCollectionView"
+    thumbnailCollectionView.accessibilityIdentifier = "thumbnailCollectionView"
+  }
+}
+
+
+// MARK: - Notification handlers
+extension MainViewController {
+  /**
+   Whenener the connection status changes, reachabilityChangedHandler is called.
+   
+   - parameter notification: NSNotification object
+  */
+  func reachabilityChangedHandler(notification: NSNotification) {
+    // Just in case, notification is sent before this view is loaded. Usually, it doesn't happen.
+    if let reachability = notification.object as? Reachability where self.isViewLoaded() == true {
+      // When internet connection is back and items is still unset, then, fetch feed.
+      if reachability.isReachable() {
+        if items.count == 0 {
+          fetchFeed()
+        }
+      } else {
+        // Avoid autoLayout background thread issue.
+        dispatch_async(dispatch_get_main_queue(), {
+          self.presentAlertControllerWithAlertStyle(title: AppData.errorTitle, message: ConnectionError.NoConnection.description)
+        })
+      }
+    }
+  }
 }
 
 
@@ -207,13 +354,23 @@ extension MainViewController: ThumbnailManagerDelegate {
 }
 
 
+// MARK: - SFSafariViewControllerDelegate
+extension MainViewController: SFSafariViewControllerDelegate {
+  func safariViewControllerDidFinish(controller: SFSafariViewController) {
+    // Update statusBarStyle
+    UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+  }
+}
+
+
 // MARK: - UIScrollViewDelegate
 extension MainViewController: UIScrollViewDelegate {
   func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-    let currentIndex = Int(mainView.imageCollectionView.contentOffset.x / mainView.imageCollectionView.frame.size.width)
+    let currentIndex = Int(imageCollectionView.contentOffset.x / imageCollectionView.frame.size.width)
     let currentIndexPath = NSIndexPath(forItem: currentIndex, inSection: 0)
     
     selectThumbnailItemAtIndexPath(currentIndexPath)
+    updateExternalLinkButton()
   }
 }
 
@@ -243,6 +400,7 @@ extension MainViewController: UICollectionViewDataSource {
   }
   
   private func configureImageCollectionViewCellWithItem(cell: ImageCollectionViewCell, item: FlickrItem) {
+    cell.setNeedsDisplay()
     cell.imagePath = item.originalImage
   }
 }

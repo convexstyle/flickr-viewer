@@ -10,6 +10,9 @@ import UIKit
 
 
 // MARK: - Constrainable
+/**
+AutoLayout based view needs to overwite these methods
+*/
 protocol Constrainable {
   func initViews() -> Void
   func initConstraints() -> Void
@@ -17,6 +20,9 @@ protocol Constrainable {
 
 
 // MARK: - ConstrainableView
+/**
+Base view class that defines necessary methods for AutoLayout based view
+*/
 class ConstrainableView: UIView {
   
   required init?(coder aDecoder: NSCoder) {
@@ -39,9 +45,7 @@ class ConstrainableView: UIView {
 }
 
 extension ConstrainableView: Constrainable {
-  
   func initViews() {}
   
   func initConstraints() {}
-  
 }

@@ -16,34 +16,52 @@ class FlickrManager {
   static let sharedInstance: FlickrManager = FlickrManager()
   
   // MARK: - Fetch public feed
+  /**
+  Fetch public feed json
+  
+  @return PendingPromise object - Promise<[FlickrItem]>
+  */
   func fetchFeed() -> Promise<[FlickrItem]> {
     let defered = Promise<[FlickrItem]>.pendingPromise()
-
-    // NOTE: Test locally
-//    let items = parseJson(self.fixtureDataFromFile("flickr")!)
-//    defered.fulfill(items)
     
     Alamofire.request(.GET, Router.PublicFeed.URL, parameters: Router.PublicFeed.parameters)
       .validate()
       .responseString { response in
+        
         switch response.result {
         case .Success:
-          guard let jsonString = response.result.value, data = NSString(string: jsonString).dataUsingEncoding(NSUTF8StringEncoding) else {
-            // TODO: - If json is nil, it is usually because of the incorrect format json from Flickr. This is the fallback to load local fixture json file.
+          guard var jsonString = response.result.value else {
             defered.reject(FlickrError.LoadError)
             return
           }
           
-          let flickrItems = FlickrJsonParser.parseJson(data)
-          if let flickrItems = flickrItems {
-            defered.fulfill(flickrItems)
+          // Remove unexpected escaped single quotes to avoid Flickr invalid json error
+          jsonString = FlickrJsonParser.removeBackSlashesFromEspcapedSingleQuotes(jsonString)
+          
+          guard let data = NSString(string: jsonString).dataUsingEncoding(NSUTF8StringEncoding) else {
+            defered.reject(FlickrError.LoadError)
+            return
+          }
+          
+          guard var flickrItems = FlickrJsonParser.parseJson(data) else {
+            print("\(Router.PublicFeed.URL.absoluteString)?\(FlickrJsonParser.createQueryStringWithParameters(Router.PublicFeed.parameters)) returns wrong json format.")
+            defered.reject(FlickrError.JsonFormatError)
+            return
+          }
+          
+          if flickrItems.count == 0 {
+            print("\(Router.PublicFeed.URL.absoluteString)?\(FlickrJsonParser.createQueryStringWithParameters(Router.PublicFeed.parameters)) returns no items.")
+            defered.reject(FlickrError.NoDataError)
           } else {
-            print("\(Router.PublicFeed.URL.absoluteString)?\(FlickrJsonParser.createQueryStringWithParameters(Router.PublicFeed.parameters)) returns wrong json format from Flickr.")
-            defered.reject(FlickrError.JsonSyntaxError)
+            
+            // Check the availablity of each item before resolving the promise
+            flickrItems = flickrItems.filter({ $0.available })
+            
+            defered.fulfill(flickrItems)
           }
           
         case .Failure(let error):
-          defered.reject(error)
+          defered.reject(FlickrError.SystemError(error))
           
         }
       }
