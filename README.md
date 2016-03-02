@@ -13,16 +13,18 @@ Flickr Viewer is a sample application that displays the photos of [Flickr](https
 * Internet connection (optional, but you see no image but error message)
 
 ## Features
-- [x] Load public feed in the json format from Flickr
-- [x] Parse json
-- [x] Get thumbnail image, small image, medium image, original image and flickr page url with regular expression
+- [x] Load public feed json from Flickr
+- [x] Parse json and save it in the memory
+- [x] Get thumbnail image, small image, medium image, original image and flickr page url with regular expression from json
 - [x] Display thumbnail and large image in the UICollectionView respectively
-- [x] Horizontal scrolling
+- [x] Horizontal scrolling, Page enabled
 - [x] Check the availability of Internet connection with Reachability
+- [x] Open the page in Safari browser inside the app
+- [x] AutoLayout
+- [x] Rotation support
+- [x] Universal application support
 - [x] Unit testing
 - [x] UITesting
-- [x] AutoLayout
-- [x] UI
 
 ## Initialization
 If you haven't installed rbenv, install [rbenv](https://github.com/rbenv/rbenv "rbenv") first.
@@ -55,6 +57,3 @@ Flickr Viewer is using [Quick](https://github.com/Quick/Quick "Quick") and [Nimb
 **Command + U** to run UITests.
 
 Select one of simulators such as iPhone 6s Plus.
-
-## Known issues
-- There are some flowLayout issues when iPad rotates. The setting of Universal app has this vital issue.
