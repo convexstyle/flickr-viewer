@@ -75,4 +75,4 @@ If you can't build the app to your device, please make sure the following.
 
 7. If you see "No matching provisioning profiles found" warning under Team dropdown, then. click "Fix issue".
 
-![Flickr Viewer General Tab](https://raw.githubusercontent.com/convexstyle/flickr-viewer/master/assets/flickr-viewer-logo.png "Flickr Viewer General Tab")
+![Flickr Viewer General Tab](https://raw.githubusercontent.com/convexstyle/flickr-viewer/master/assets/general-tab.png "Flickr Viewer General Tab")
