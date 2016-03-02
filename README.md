@@ -62,9 +62,17 @@ Select one of simulators such as iPhone 6s Plus.
 ## Build error
 If you can't build the app to your device, please make sure the following.
 1. Go to XCode Preference.
+
 2. Go to Accounts tab.
+
 3. Click plus "+" button on the on the bottom left to add your Apple ID.
+
 4. Click Create button next to iOS Development.
+
 5. Select FlickrViewer in the Project Navigator.
+
 6. Select General tab.
+
 7. If you see "No matching provisioning profiles found" warning under Team dropdown, then. click "Fix issue".
+
+![Flickr Viewer General Tab](https://raw.githubusercontent.com/convexstyle/flickr-viewer/master/assets/flickr-viewer-logo.png "Flickr Viewer General Tab")
