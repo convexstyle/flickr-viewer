@@ -9,6 +9,7 @@ Flickr Viewer is a sample application that displays the photos of [Flickr](https
 * CocoaPods `0.39.0`
 * Xcode `7.2`
 * iOS `9.2`
+* Apple ID (optional. If you build this app to your device, it is required.)
 * rbenv (optional)
 * Internet connection (optional, but you see no image but error message)
 
@@ -57,3 +58,13 @@ Flickr Viewer is using [Quick](https://github.com/Quick/Quick "Quick") and [Nimb
 **Command + U** to run UITests.
 
 Select one of simulators such as iPhone 6s Plus.
+
+## Build error
+If you can't build the app to your device, please make sure the following.
+1. Go to XCode Preference.
+2. Go to Accounts tab.
+3. Click plus "+" button on the on the bottom left to add your Apple ID.
+4. Click Create button next to iOS Development.
+5. Select FlickrViewer in the Project Navigator.
+6. Select General tab.
+7. If you see "No matching provisioning profiles found" warning under Team dropdown, then. click "Fix issue".
