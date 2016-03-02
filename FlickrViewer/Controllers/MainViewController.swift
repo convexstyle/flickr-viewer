@@ -125,7 +125,7 @@ class MainViewController: UIViewController {
     refreshButton.title = String.fontAwesomeIconWithName(FontAwesome.Refresh)
     navigationItem.rightBarButtonItem = refreshButton
     
-    // Large images
+    // UICollectionView setting for Large images
     imageCollectionView.registerClass(ImageCollectionViewCell.self, forCellWithReuseIdentifier: Constants.Keys.imageCollectionCellId)
     imageCollectionView.showsVerticalScrollIndicator = false
     imageCollectionView.showsHorizontalScrollIndicator = false
@@ -135,7 +135,7 @@ class MainViewController: UIViewController {
     imageCollectionView.clipsToBounds = false
     imageCollectionView.dataSource = self
     
-    // Thumbnails
+    // UICollectionView setting for Thumbnails
     thumbnailCollectionView.registerClass(ThumbnailCollectionViewCell.self, forCellWithReuseIdentifier: ThumbnailManager.Constants.Keys.thumbnailCellId)
     thumbnailCollectionView.showsVerticalScrollIndicator = false
     thumbnailCollectionView.showsHorizontalScrollIndicator = false
@@ -282,6 +282,10 @@ class MainViewController: UIViewController {
   // MARK: - Orientation
   override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
     super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+    
+    // Update flowlayout to support rotations
+    imageCollectionView.collectionViewLayout.invalidateLayout()
+    thumbnailCollectionView.collectionViewLayout.invalidateLayout()
   }
   
   override func viewDidLayoutSubviews() {
@@ -296,11 +300,6 @@ class MainViewController: UIViewController {
   
   override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
-    
-    if traitCollection != previousTraitCollection {
-      imageCollectionView.collectionViewLayout.invalidateLayout()
-      thumbnailCollectionView.collectionViewLayout.invalidateLayout()
-    }
   }
   
 }
