@@ -26,6 +26,7 @@ import SwiftyJSON
 class FlickrItem {
   let item: JSON
   
+  // Slug image path
   lazy var slugImagePath: String? = {
     guard let mediumImage = self.mediumImage, slugPath = FlickrJsonParser.getSlugImagePath(mediumImage) else {
       return nil
@@ -34,6 +35,7 @@ class FlickrItem {
     return slugPath
   }()
   
+  // Original image url
   var originalImage: String? {
     if slugImagePath == nil {
       return nil
@@ -42,10 +44,12 @@ class FlickrItem {
     return "\(slugImagePath!).jpg"
   }
   
+  // Medium image url
   var mediumImage: String? {    
     return item["media"]["m"].string
   }
   
+  // Small image url
   var smallImage: String? {
     if slugImagePath == nil {
       return nil
@@ -54,6 +58,7 @@ class FlickrItem {
     return "\(slugImagePath!)_s.jpg"
   }
   
+  // Thumbnail image url
   var thumbnailImage: String? {
     if slugImagePath == nil {
       return nil
@@ -62,6 +67,7 @@ class FlickrItem {
     return "\(slugImagePath!)_t.jpg"
   }
   
+  // Flickr page url
   var link: String? {
     guard let link = item["link"].string else {
       return nil
@@ -74,6 +80,7 @@ class FlickrItem {
     return link
   }
   
+  // If original image amd small image are not provided, then, this item has to be ignored to display
   var available: Bool {
     return originalImage != nil && smallImage != nil
   }
