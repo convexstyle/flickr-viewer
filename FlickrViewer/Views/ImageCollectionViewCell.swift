@@ -23,11 +23,11 @@ class ImageCollectionViewCell: UICollectionViewCell {
         self.imageView.alpha = 0
         
         // Animation and reset layout
-        imageView.sd_setImageWithURL(NSURL(string: imagePath)!, completed: { (image, _, _, _) in
+        imageView.sd_setImage(with: URL(string: imagePath)!, completed: { (image, _, _, _) in
           self.imageView.image = image
           self.setNeedsLayout()
           
-          UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: {
+          UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
             self.imageView.alpha = 1
             }, completion: { (success) in
               if success {
@@ -55,34 +55,34 @@ class ImageCollectionViewCell: UICollectionViewCell {
 
   
   // MARK: - Override UIView methods
-  override func drawRect(rect: CGRect) {
-    super.drawRect(rect)
+  override func draw(_ rect: CGRect) {
+    super.draw(rect)
     
     let blueCircle = UIBezierPath.drawCircle(
       1.0,
-      lineCapStyle: CGLineCap.Round,
+      lineCapStyle: CGLineCap.round,
       radius: 10,
       center: CGPoint(x: rect.midX - 15, y: rect.midY),
       startAngle: 0,
-      endAngle: CGFloat(M_PI * 4),
+      endAngle: CGFloat(Double.pi * 4),
       clockwise: true
     )
     UIColor.appBlueColor().setFill()
     blueCircle.fill()
-    blueCircle.closePath()
+    blueCircle.close()
     
     let pinkCircle = UIBezierPath.drawCircle(
       1.0,
-      lineCapStyle: CGLineCap.Round,
+      lineCapStyle: CGLineCap.round,
       radius: 10,
       center: CGPoint(x: rect.midX + 15, y: rect.midY),
       startAngle: 0,
-      endAngle: CGFloat(M_PI * 4),
+      endAngle: CGFloat(Double.pi * 4),
       clockwise: true
     )
     UIColor.appPinkColor().setFill()
     pinkCircle.fill()
-    pinkCircle.closePath()
+    pinkCircle.close()
     
   }
   
@@ -92,10 +92,10 @@ class ImageCollectionViewCell: UICollectionViewCell {
 // MARK: - Constrainable
 extension ImageCollectionViewCell: Constrainable {
   func initViews() {
-    backgroundColor = .clearColor()
+    backgroundColor = .clear
     
     imageView.clipsToBounds = true
-    imageView.contentMode   = .ScaleAspectFill
+    imageView.contentMode   = .scaleAspectFill
     contentView.addSubview(imageView)
   }
   

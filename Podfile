@@ -4,12 +4,12 @@ use_frameworks!
 
 def main_pods
   # Network
-  pod 'Alamofire', '~> 3.2.0'
-  pod 'SwiftyJSON', '~> 2.3.2'
+  pod 'Alamofire', '~> 4.4.0'
+  pod 'SwiftyJSON', '~> 3.1.4'
 
   # Utility
-  pod 'PromiseKit', '~> 3.0.2'
-  pod 'UIColor_Hex_Swift', '~> 1.9'
+  pod 'PromiseKit', '~> 4.2.2'
+  pod 'UIColor_Hex_Swift', '~> 3.0.2'
   pod 'SDWebImage', '~> 3.7.5'
 
   # UI
@@ -17,16 +17,16 @@ def main_pods
   pod 'TSMessages', '~> 0.9.12'
 
   # Assets
-  pod 'FontAwesome.swift', '~> 0.7.0'
+  pod 'FontAwesome.swift', '~> 1.2.0'
 
   # Network
-  pod 'ReachabilitySwift', '~> 2.3.3'
+  pod 'ReachabilitySwift', '~> 3'
 end
 
 def testing_pods
-  pod 'Mockingjay', '~> 1.1.1'
-  pod 'Nimble', '~> 3.1.0'
-  pod 'Quick', :head
+  pod 'Mockingjay', '~> 2.0.0'
+  pod 'Nimble', '~> 7.0.1'
+  pod 'Quick', '~> 1.1.0'
 end
 
 

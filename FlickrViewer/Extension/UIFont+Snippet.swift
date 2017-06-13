@@ -13,9 +13,9 @@ import UIKit
  */
 extension UIFont {
   class func listFontNames() {
-    let fontFamilyNames = UIFont.familyNames()
+    let fontFamilyNames = UIFont.familyNames
     for family in fontFamilyNames {
-      for name in UIFont.fontNamesForFamilyName(family) {
+      for name in UIFont.fontNames(forFamilyName: family) {
         print(name, separator: "", terminator: "\r\n")
       }
     }

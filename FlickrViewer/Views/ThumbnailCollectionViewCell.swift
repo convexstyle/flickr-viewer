@@ -25,11 +25,11 @@ class ThumbnailCollectionViewCell: UICollectionViewCell {
         self.imageView.alpha = 0
         
         // Animation and reset layout
-        imageView.sd_setImageWithURL(NSURL(string: imagePath)!, completed: { (image, _, _, _) in
+        imageView.sd_setImage(with: URL(string: imagePath)!, completed: { (image, _, _, _) in
           self.imageView.image = image
           self.setNeedsLayout()
           
-          UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: {
+          UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseInOut, animations: {
             self.imageView.alpha = 1
           }, completion: { (success) in
               if success {
@@ -41,9 +41,9 @@ class ThumbnailCollectionViewCell: UICollectionViewCell {
     }
   }
   
-  override var selected: Bool {
+  override var isSelected: Bool {
     didSet {
-      borderView.hidden = selected != true
+      borderView.isHidden = isSelected != true
     }
   }
   
@@ -63,28 +63,28 @@ class ThumbnailCollectionViewCell: UICollectionViewCell {
   }
   
   // MARK: - Override UIView methods
-  override func drawRect(rect: CGRect) {
-    super.drawRect(rect)
+  override func draw(_ rect: CGRect) {
+    super.draw(rect)
     
-    UIBezierPath.drawLine(
+    _ = UIBezierPath.drawLine(
       1,
-      lineCap: .Square,
+      lineCap: .square,
       strokeColor: UIColor.appLightBlueColor(),
       startPoint: CGPoint(x: rect.minX + 0.5, y: rect.minY),
       endPoint: CGPoint(x: rect.minX + 0.5, y: rect.maxY)
     )
     
-    UIBezierPath.drawLine(
+    _ = UIBezierPath.drawLine(
       1,
-      lineCap: .Square,
+      lineCap: .square,
       strokeColor: UIColor.appLightBlueColor(),
       startPoint: CGPoint(x: rect.midX, y: rect.midY - 5),
       endPoint: CGPoint(x: rect.midX, y: rect.midY + 5)
     )
     
-    UIBezierPath.drawLine(
+    _ = UIBezierPath.drawLine(
       1,
-      lineCap: .Square,
+      lineCap: .square,
       strokeColor: UIColor.appLightBlueColor(),
       startPoint: CGPoint(x: rect.midX - 5, y: rect.midY),
       endPoint: CGPoint(x: rect.midX + 5, y: rect.midY)
@@ -94,13 +94,13 @@ class ThumbnailCollectionViewCell: UICollectionViewCell {
 
 extension ThumbnailCollectionViewCell: Constrainable {
   func initViews() {
-    backgroundColor = .clearColor()
+    backgroundColor = .clear
     
     imageView.clipsToBounds = true
-    imageView.contentMode = .ScaleAspectFill
+    imageView.contentMode = .scaleAspectFill
     contentView.addSubview(imageView)
     
-    borderView.hidden = true
+    borderView.isHidden = true
     borderView.backgroundColor = .appPinkColor()
     contentView.addSubview(borderView)
   }
@@ -120,8 +120,8 @@ extension ThumbnailCollectionViewCell: Constrainable {
     activateConstraints(subviewsConstraints, withViews: subviews, metrics: nil)
     activateConstraints(
       [
-        NSLayoutConstraint(item: borderView, attribute: .Top, relatedBy: .Equal, toItem: contentView, attribute: .Top, multiplier: 1, constant: 0),
-        NSLayoutConstraint(item: borderView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .Height, multiplier: 1, constant: 5)
+        NSLayoutConstraint(item: borderView, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0),
+        NSLayoutConstraint(item: borderView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .height, multiplier: 1, constant: 5)
       ]
     )
     

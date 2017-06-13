@@ -28,7 +28,7 @@ class FlickrItem {
   
   // Slug image path
   lazy var slugImagePath: String? = {
-    guard let mediumImage = self.mediumImage, slugPath = FlickrJsonParser.getSlugImagePath(mediumImage) else {
+    guard let mediumImage = self.mediumImage, let slugPath = FlickrJsonParser.getSlugImagePath(mediumImage) else {
       return nil
     }
     
@@ -73,7 +73,7 @@ class FlickrItem {
       return nil
     }
     
-    if link.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) == "" {
+    if link.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) == "" {
       return nil
     }
     

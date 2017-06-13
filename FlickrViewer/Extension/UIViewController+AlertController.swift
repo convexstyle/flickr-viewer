@@ -12,14 +12,14 @@ import UIKit
  UIViewController extension to add snippet codes to open UIAlertViewController
  */
 extension UIViewController {
-  func presentAlertControllerWithAlertStyle(title title: String?, message: String?, closeButtonTitle: String = "OK") {
-    let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+  func presentAlertControllerWithAlertStyle(title: String?, message: String?, closeButtonTitle: String = "OK") {
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
     alertController.popoverPresentationController?.sourceView = self.view
     alertController.popoverPresentationController?.sourceRect = self.view.bounds
     alertController.popoverPresentationController?.permittedArrowDirections = []
     
-    alertController.addAction(UIAlertAction(title: closeButtonTitle, style: .Cancel, handler: nil))
+    alertController.addAction(UIAlertAction(title: closeButtonTitle, style: .cancel, handler: nil))
     
-    self.presentViewController(alertController, animated: true, completion: nil)
+    self.present(alertController, animated: true, completion: nil)
   }
 }

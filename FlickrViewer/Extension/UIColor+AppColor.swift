@@ -14,26 +14,26 @@ import UIColor_Hex_Swift
  */
 extension UIColor {
   class func appGreyColor() -> UIColor {
-    return UIColor(rgba: "#ebebeb")
+    return UIColor("#ebebeb")
   }
   
   class func appMidGreyColor() -> UIColor {
-    return UIColor(rgba: "#41475b")
+    return UIColor("#41475b")
   }
   
   class func appDarkGreyColor() -> UIColor {
-    return UIColor(rgba: "#242b40")
+    return UIColor("#242b40")
   }
   
   class func appBlueColor() -> UIColor {
-    return UIColor(rgba: "#2c5ea7")
+    return UIColor("#2c5ea7")
   }
   
   class func appLightBlueColor() -> UIColor {
-    return UIColor(rgba: "#386dbc")
+    return UIColor("#386dbc")
   }
   
   class func appPinkColor() -> UIColor {
-     return UIColor(rgba: "#ed1384")
+     return UIColor("#ed1384")
   }
 }

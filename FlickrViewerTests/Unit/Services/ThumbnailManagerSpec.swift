@@ -20,7 +20,7 @@ class ThumbnailManagerSpec: QuickSpec {
       class ThumbnailManagerDelegateMock: NSObject, ThumbnailManagerDelegate {
         var isCellDidSelectCalled = false
         
-        func cellDidSelect(sender: ThumbnailManager, path: NSIndexPath) {
+        func cellDidSelect(_ sender: ThumbnailManager, path: NSIndexPath) {
           isCellDidSelectCalled = true
         }
       }
@@ -28,7 +28,7 @@ class ThumbnailManagerSpec: QuickSpec {
       class UICollectionViewMock: UICollectionView {
         var isReloadDataCalled = false
         
-        private override func reloadData() {
+        fileprivate override func reloadData() {
           isReloadDataCalled = true
         }
       }

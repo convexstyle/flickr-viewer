@@ -13,22 +13,22 @@ import UIKit
  */
 extension UIView {
 
-  func activateConstraints(constraints: [NSLayoutConstraint]) {
-    NSLayoutConstraint.activateConstraints(constraints)
+  func activateConstraints(_ constraints: [NSLayoutConstraint]) {
+    NSLayoutConstraint.activate(constraints)
   }
   
-  func activateConstraints(constraints: [String:NSLayoutFormatOptions], withViews views: [String:AnyObject], metrics: [String:AnyObject]? = nil) {
+  func activateConstraints(_ constraints: [String:NSLayoutFormatOptions], withViews views: [String:AnyObject], metrics: [String:AnyObject]? = nil) {
     for (_, view) in views {
       (view as! UIView).translatesAutoresizingMaskIntoConstraints = false
     }
     for (constraint, options) in constraints {
-      let layoutConstraint = NSLayoutConstraint.constraintsWithVisualFormat(constraint, options: options, metrics: metrics, views: views)
-      NSLayoutConstraint.activateConstraints(layoutConstraint)
+      let layoutConstraint = NSLayoutConstraint.constraints(withVisualFormat: constraint, options: options, metrics: metrics, views: views)
+      NSLayoutConstraint.activate(layoutConstraint)
     }
   }
   
-  func deactivateConstraints(constraints: [NSLayoutConstraint]) {
-    NSLayoutConstraint.deactivateConstraints(constraints)
+  func deactivateConstraints(_ constraints: [NSLayoutConstraint]) {
+    NSLayoutConstraint.deactivate(constraints)
   }
 
 }

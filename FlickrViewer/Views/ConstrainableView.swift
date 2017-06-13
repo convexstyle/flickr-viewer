@@ -35,8 +35,8 @@ class ConstrainableView: UIView {
     translatesAutoresizingMaskIntoConstraints = false
   }
   
-  override func willMoveToSuperview(newSuperview: UIView?) {
-    super.willMoveToSuperview(newSuperview)
+  override func willMove(toSuperview newSuperview: UIView?) {
+    super.willMove(toSuperview: newSuperview)
     
     initViews()
     initConstraints()

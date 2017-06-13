@@ -22,36 +22,33 @@ class FlickrManager {
   @return PendingPromise object - Promise<[FlickrItem]>
   */
   func fetchFeed() -> Promise<[FlickrItem]> {
-    let defered = Promise<[FlickrItem]>.pendingPromise()
-    
-    Alamofire.request(.GET, Router.PublicFeed.URL, parameters: Router.PublicFeed.parameters)
+    let defered = Promise<[FlickrItem]>.pending()
+    Alamofire.request(Router.publicFeed)
       .validate()
       .responseString { response in
         
         switch response.result {
-        case .Success:
+        case .success:
           guard var jsonString = response.result.value else {
-            defered.reject(FlickrError.LoadError)
+            defered.reject(FlickrError.loadError)
             return
           }
           
           // Remove unexpected escaped single quotes to avoid Flickr invalid json error
           jsonString = FlickrJsonParser.removeBackSlashesFromEspcapedSingleQuotes(jsonString)
           
-          guard let data = NSString(string: jsonString).dataUsingEncoding(NSUTF8StringEncoding) else {
-            defered.reject(FlickrError.LoadError)
+          guard let data = jsonString.data(using: .utf8) else {
+            defered.reject(FlickrError.loadError)
             return
           }
           
           guard var flickrItems = FlickrJsonParser.parseJson(data) else {
-            print("\(Router.PublicFeed.URL.absoluteString)?\(FlickrJsonParser.createQueryStringWithParameters(Router.PublicFeed.parameters)) returns wrong json format.")
-            defered.reject(FlickrError.JsonFormatError)
+            defered.reject(FlickrError.jsonFormatError)
             return
           }
           
           if flickrItems.count == 0 {
-            print("\(Router.PublicFeed.URL.absoluteString)?\(FlickrJsonParser.createQueryStringWithParameters(Router.PublicFeed.parameters)) returns no items.")
-            defered.reject(FlickrError.NoDataError)
+            defered.reject(FlickrError.noDataError)
           } else {
             
             // Check the availablity of each item before resolving the promise
@@ -60,8 +57,8 @@ class FlickrManager {
             defered.fulfill(flickrItems)
           }
           
-        case .Failure(let error):
-          defered.reject(FlickrError.SystemError(error))
+        case .failure(let error):
+          defered.reject(FlickrError.systemError(error as NSError))
           
         }
       }

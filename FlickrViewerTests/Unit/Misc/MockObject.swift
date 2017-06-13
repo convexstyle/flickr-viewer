@@ -10,7 +10,7 @@ import Foundation
 import SwiftyJSON
 
 // Empty mock object
-let mockJSON = JSON(data: NSData())
+let mockJSON = JSON(data: Data())
 
 // Mock object for items
 let mockItemsData = fixtureDataFromFile("items")!

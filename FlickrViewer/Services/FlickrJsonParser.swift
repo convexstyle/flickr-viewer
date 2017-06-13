@@ -19,7 +19,7 @@ class FlickrJsonParser {
    
    - returns: Array of FlickrItem object
    */
-  class func parseJson(data: NSData) -> [FlickrItem]? {
+  class func parseJson(_ data: Data) -> [FlickrItem]? {
     var flickrItems: [FlickrItem]?
     
     // Convert NSData to [JSON] object
@@ -47,8 +47,8 @@ class FlickrJsonParser {
    
    - returns: Unescaped json string
    */
-  class func removeBackSlashesFromEspcapedSingleQuotes(str: String) -> String {
-    return str.stringByReplacingOccurrencesOfString("\\'", withString: "'")
+  class func removeBackSlashesFromEspcapedSingleQuotes(_ str: String) -> String {
+    return str.replacingOccurrences(of: "\\'", with: "'")
   }
   
   
@@ -66,9 +66,9 @@ class FlickrJsonParser {
    
    - returns: The slug image url
    */
-  class func getSlugImagePath(imageURL: String) -> String? {
+  class func getSlugImagePath(_ imageURL: String) -> String? {
     let pattern = "(https:\\/\\/.*)_m\\.jpg"
-    let result = imageURL.stringByReplacingOccurrencesOfString(pattern, withString: "$1", options: NSStringCompareOptions.RegularExpressionSearch, range: nil)
+    let result = imageURL.replacingOccurrences(of: pattern, with: "$1", options: NSString.CompareOptions.regularExpression, range: nil)
     
     if result == imageURL {
       return nil
@@ -91,7 +91,7 @@ class FlickrJsonParser {
    
    - returns: Query string
    */
-  class func createQueryStringWithParameters(parameters: [String: AnyObject]?) -> String {
+  class func createQueryStringWithParameters(_ parameters: [String: AnyObject]?) -> String {
     guard let parameters = parameters else {
       return ""
     }
@@ -103,6 +103,6 @@ class FlickrJsonParser {
       queries.append(query)
     }
     
-    return queries.joinWithSeparator("&")
+    return queries.joined(separator: "&")
   }
 }

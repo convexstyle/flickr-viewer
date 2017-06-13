@@ -20,11 +20,11 @@ class MainViewControllerSpec: QuickSpec {
         var isFetchFeedCalled = false
         var isPresentSFSafariViewControllerWithURLCalled = false
         
-        private override func fetchFeed() {
+        fileprivate override func fetchFeed() {
           isFetchFeedCalled = true
         }
         
-        private override func presentSFSafariViewControllerWithURL(url: NSURL) {
+        fileprivate override func presentSFSafariViewControllerWithURL(_ url: NSURL) {
           isPresentSFSafariViewControllerWithURLCalled = true
         }
       }

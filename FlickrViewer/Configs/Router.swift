@@ -12,33 +12,31 @@ import Alamofire
 /**
  Manage router information for any Flickr API call.
  */
-enum Router: String {
+enum Router: URLRequestConvertible {
   
   static let baseURLString = "https://api.flickr.com/services/"
   
-  case PublicFeed = "feeds/photos_public.gne"
+  case publicFeed
   
-  var method: Alamofire.Method {
-    switch self {
-    case .PublicFeed:
-      return .GET
-    }
-  }
-  
-  var parameters: [String: AnyObject]? {
-    switch self {
-    case .PublicFeed:
-      return [
-        "format": "json",
-        "nojsoncallback": "1"
-      ]
-    }
-  }
-  
-  var URL: NSURL {
-    switch self {
-    case .PublicFeed:
-      return NSURL(string: Router.baseURLString)!.URLByAppendingPathComponent(self.rawValue)
-    }
+  func asURLRequest() throws -> URLRequest {
+    let result: (path: String, parameters: Parameters) = {
+      switch self {
+      case .publicFeed:
+        return ("feeds/photos_public.gne", ["format": "json", "nojsoncallback": "1"])
+      }
+    }()
+    
+    let method: HTTPMethod = {
+      switch self {
+      case .publicFeed:
+        return .get
+      }
+    }()
+    
+    let url               = try Router.baseURLString.asURL()
+    var urlRequest        = URLRequest(url: url.appendingPathComponent(result.path))
+    urlRequest.httpMethod = method.rawValue
+    
+    return try URLEncoding.default.encode(urlRequest, with: result.parameters)
   }
 }

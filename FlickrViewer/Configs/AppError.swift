@@ -11,24 +11,24 @@ import Foundation
 /**
  Manage Flicker error type.
  */
-enum FlickrError: ErrorType {
-  case LoadError
-  case JsonFormatError
-  case NoDataError
-  case SystemError(NSError)
+enum FlickrError: Error {
+  case loadError
+  case jsonFormatError
+  case noDataError
+  case systemError(NSError)
   
   var description: String {
     switch self {
-    case .LoadError:
+    case .loadError:
       return NSLocalizedString("flickrLoadErrorDescription", tableName: "App", value: "", comment: "Flickr json load error")
       
-    case .JsonFormatError:
+    case .jsonFormatError:
       return NSLocalizedString("flickrJsonErrorDescription", tableName: "App", value: "", comment: "Flickr json format error")
       
-    case .NoDataError:
+    case .noDataError:
       return NSLocalizedString("flickrNoDataErrorDescription", tableName: "App", value: "", comment: "Flickr no data error")
     
-    case .SystemError(let error):
+    case .systemError(let error):
       return error.localizedDescription
       
     }
@@ -38,12 +38,12 @@ enum FlickrError: ErrorType {
 /**
 Manage Connection error type.
 */
-enum ConnectionError: ErrorType {
-  case NoConnection
+enum ConnectionError: Error {
+  case noConnection
   
   var description: String {
     switch self {
-    case .NoConnection:
+    case .noConnection:
       return NSLocalizedString("internetConnectionErrorDescription", tableName: "App", value: "", comment: "No connection error")
     }
   }

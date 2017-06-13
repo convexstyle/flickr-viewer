@@ -27,14 +27,14 @@ class MainView: UIView {
   
   override init(frame: CGRect) {
     let imageLayout = UICollectionViewFlowLayout()
-    imageLayout.scrollDirection = .Horizontal
-    imageCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: imageLayout)
+    imageLayout.scrollDirection = .horizontal
+    imageCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: imageLayout)
     
     borderView = UIView()
     
     let navLayout = UICollectionViewFlowLayout()
-    navLayout.scrollDirection = .Horizontal
-    navCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: navLayout)
+    navLayout.scrollDirection = .horizontal
+    navCollectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: navLayout)
     
     externalLinkButton = UIButton()
     
@@ -61,10 +61,10 @@ extension MainView: Constrainable {
     navCollectionView.backgroundColor = .appBlueColor()
     addSubview(navCollectionView)
     
-    externalLinkButton.hidden = true
-    externalLinkButton.titleLabel?.font = UIFont.fontAwesomeOfSize(20)
-    externalLinkButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-    externalLinkButton.setTitle(String.fontAwesomeIconWithName(.ExternalLink), forState: .Normal)
+    externalLinkButton.isHidden = true
+    externalLinkButton.titleLabel?.font = UIFont.fontAwesome(ofSize: 20)
+    externalLinkButton.setTitleColor(UIColor.white, for: UIControlState())
+    externalLinkButton.setTitle(String.fontAwesomeIcon(name: .externalLink), for: .normal)
     borderView.addSubview(externalLinkButton)
   }
   
@@ -90,10 +90,10 @@ extension MainView: Constrainable {
       "V:|[imageCollection][border(borderHeight)][nav(navHeight)]|": []
     ]
 
-    activateConstraints(subviewsConstraints, withViews: subviews, metrics: metrics)
+    activateConstraints(subviewsConstraints, withViews: subviews, metrics: metrics as [String : AnyObject])
     activateConstraints(
       [
-        NSLayoutConstraint(item: externalLinkButton, attribute: .CenterY, relatedBy: .Equal, toItem: borderView, attribute: .CenterY, multiplier: 1, constant: 2)
+        NSLayoutConstraint(item: externalLinkButton, attribute: .centerY, relatedBy: .equal, toItem: borderView, attribute: .centerY, multiplier: 1, constant: 2)
       ]
     )
   }

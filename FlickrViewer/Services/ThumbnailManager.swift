@@ -15,7 +15,7 @@ protocol ThumbnailManagerDelegate: class {
    - parameter sender: ThumbnailManager instance
    - parameter path: Selected NSIndexPath
   */
-  func cellDidSelect(sender: ThumbnailManager, path: NSIndexPath)
+  func cellDidSelect(_ sender: ThumbnailManager, path: IndexPath)
 }
 
 /**
@@ -42,7 +42,7 @@ class ThumbnailManager: NSObject {
 
 // MARK: - UICollectionViewDelegate
 extension ThumbnailManager: UICollectionViewDelegate {
-  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     delegate?.cellDidSelect(self, path: indexPath)
   }
 }
@@ -50,16 +50,16 @@ extension ThumbnailManager: UICollectionViewDelegate {
 
 // MARK: - UICollectionViewDataSource
 extension ThumbnailManager: UICollectionViewDataSource {
-  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }
   
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return items.count
   }
   
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Constants.Keys.thumbnailCellId, forIndexPath: indexPath)
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.Keys.thumbnailCellId, for: indexPath)
 
     if let cell = cell as? ThumbnailCollectionViewCell {
       configureThumbnailCellWithItem(cell, item: items[indexPath.row])
@@ -68,7 +68,7 @@ extension ThumbnailManager: UICollectionViewDataSource {
     return cell
   }
   
-  private func configureThumbnailCellWithItem(cell: ThumbnailCollectionViewCell, item: FlickrItem) {
+  fileprivate func configureThumbnailCellWithItem(_ cell: ThumbnailCollectionViewCell, item: FlickrItem) {
     cell.imagePath = item.smallImage
   }
 }
@@ -76,19 +76,19 @@ extension ThumbnailManager: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension ThumbnailManager: UICollectionViewDelegateFlowLayout {
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: collectionView.frame.size.width / 4, height: collectionView.frame.size.height)
   }
   
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-    return UIEdgeInsetsZero
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    return UIEdgeInsets.zero
   }
   
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return 0
   }
   
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
     return 0
   }
 }

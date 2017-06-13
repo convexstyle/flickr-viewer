@@ -35,13 +35,13 @@ class FlickrViewerUITests: XCTestCase {
     let thumbnailCollectionView = app.collectionViews["thumbnailCollectionView"]
     let imageCollectionView = app.collectionViews["imageCollectionView"]
     
-    let secondImageCell = imageCollectionView.childrenMatchingType(XCUIElementType.Any).elementBoundByIndex(1)
-    let secondThumbnailCell = thumbnailCollectionView.childrenMatchingType(XCUIElementType.Any).elementBoundByIndex(1)
+    let secondImageCell = imageCollectionView.children(matching: XCUIElementType.any).element(boundBy: 1)
+    let secondThumbnailCell = thumbnailCollectionView.children(matching: XCUIElementType.any).element(boundBy: 1)
     if secondImageCell.exists && secondThumbnailCell.exists {
       secondThumbnailCell.tap()
       
-      XCTAssertTrue(secondImageCell.selected)
-      XCTAssertTrue(secondThumbnailCell.selected)
+      XCTAssertTrue(secondImageCell.isSelected)
+      XCTAssertTrue(secondThumbnailCell.isSelected)
     }
   }
   
@@ -50,7 +50,7 @@ class FlickrViewerUITests: XCTestCase {
     
     externalButton.forceTapElement()
     
-    XCTAssertTrue(UIApplication.sharedApplication().statusBarStyle == UIStatusBarStyle.Default)
+    XCTAssertTrue(UIApplication.shared.statusBarStyle == UIStatusBarStyle.default)
   }
   
 }
@@ -58,11 +58,11 @@ class FlickrViewerUITests: XCTestCase {
 // Sends a tap event to a hittable/unhittable element.
 extension XCUIElement {
   func forceTapElement() {
-    if self.hittable {
+    if self.isHittable {
       self.tap()
     }
     else {
-      let coordinate: XCUICoordinate = self.coordinateWithNormalizedOffset(CGVectorMake(0.0, 0.0))
+      let coordinate: XCUICoordinate = self.coordinate(withNormalizedOffset: CGVector(dx: 0.0, dy: 0.0))
       coordinate.tap()
     }
   }

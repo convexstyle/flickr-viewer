@@ -25,12 +25,12 @@ class MainViewController: UIViewController {
   /**
    The initial NSIndexPath for both Large image's collectionView and thumbnail collectionView
    */
-  let initIndexPath = NSIndexPath(forItem: 0, inSection: 0)
+  let initIndexPath = IndexPath(item: 0, section: 0)
   
   /**
    The current NSIndexPath of large image's collectionView
    */
-  var currentIndexPath = NSIndexPath(forItem: 0, inSection: 0)
+  var currentIndexPath = IndexPath(item: 0, section: 0)
   
   /**
    The items of Large image's collectionView
@@ -78,7 +78,7 @@ class MainViewController: UIViewController {
     return self.mainView.externalLinkButton
   }()
   
-  lazy var sharedApplication: UIApplication =  UIApplication.sharedApplication()
+  lazy var sharedApplication: UIApplication =  UIApplication.shared
   
   lazy var appDelegate: AppDelegate? = {
     return self.sharedApplication.delegate as? AppDelegate
@@ -116,53 +116,53 @@ class MainViewController: UIViewController {
     // Navigation bar item
     let refreshButton = UIBarButtonItem()
     refreshButton.target = self
-    refreshButton.action = "refreshButtonTouchUpInside:"
+    refreshButton.action = #selector(MainViewController.refreshButtonTouchUpInside(_:))
     let attributes = [
-      NSFontAttributeName: UIFont.fontAwesomeOfSize(20),
-      NSForegroundColorAttributeName: UIColor.whiteColor()
+      NSFontAttributeName: UIFont.fontAwesome(ofSize: 20),
+      NSForegroundColorAttributeName: UIColor.white
     ] as Dictionary!
-    refreshButton.setTitleTextAttributes(attributes, forState: UIControlState.Normal)
-    refreshButton.title = String.fontAwesomeIconWithName(FontAwesome.Refresh)
+    refreshButton.setTitleTextAttributes(attributes, for: .normal)
+    refreshButton.title = String.fontAwesomeIcon(name: .refresh)
     navigationItem.rightBarButtonItem = refreshButton
     
     // UICollectionView setting for Large images
-    imageCollectionView.registerClass(ImageCollectionViewCell.self, forCellWithReuseIdentifier: Constants.Keys.imageCollectionCellId)
+    imageCollectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: Constants.Keys.imageCollectionCellId)
     imageCollectionView.showsVerticalScrollIndicator = false
     imageCollectionView.showsHorizontalScrollIndicator = false
     imageCollectionView.alwaysBounceHorizontal = true
-    imageCollectionView.pagingEnabled = true
+    imageCollectionView.isPagingEnabled = true
     imageCollectionView.delegate = self
     imageCollectionView.clipsToBounds = false
     imageCollectionView.dataSource = self
     
     // UICollectionView setting for Thumbnails
-    thumbnailCollectionView.registerClass(ThumbnailCollectionViewCell.self, forCellWithReuseIdentifier: ThumbnailManager.Constants.Keys.thumbnailCellId)
+    thumbnailCollectionView.register(ThumbnailCollectionViewCell.self, forCellWithReuseIdentifier: ThumbnailManager.Constants.Keys.thumbnailCellId)
     thumbnailCollectionView.showsVerticalScrollIndicator = false
     thumbnailCollectionView.showsHorizontalScrollIndicator = false
     thumbnailCollectionView.alwaysBounceHorizontal = true
-    thumbnailCollectionView.pagingEnabled = false
+    thumbnailCollectionView.isPagingEnabled = false
     thumbnailCollectionView.delegate = thumbnailManager
     thumbnailCollectionView.dataSource = thumbnailManager
     
     // External button
-    externalLinkButton.addTarget(self, action: "externalLinkButtonTouchUpInside:", forControlEvents: UIControlEvents.TouchUpInside)
+    externalLinkButton.addTarget(self, action: #selector(self.externalLinkButtonTouchUpInside(_:)), for: .touchUpInside)
     
     // Fetch Feed
     fetchFeed()
   }
   
-  override func viewWillAppear(animated: Bool) {
+  override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
     // Add observer
-    NSNotificationCenter.defaultCenter().addObserver(self, selector: "reachabilityChangedHandler:", name: ReachabilityChangedNotification, object: appDelegate?.reachability)
+    NotificationCenter.default.addObserver(self, selector: #selector(self.reachabilityChangedHandler(_:)), name: ReachabilityChangedNotification, object: appDelegate?.reachability)
   }
   
-  override func viewWillDisappear(animated: Bool) {
+  override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
     // Remove observers
-    NSNotificationCenter.defaultCenter().removeObserver(self)
+    NotificationCenter.default.removeObserver(self)
   }
   
   
@@ -172,7 +172,7 @@ class MainViewController: UIViewController {
   
   - parameter sender: UIBarButtonItem object
   */
-  func refreshButtonTouchUpInside(sender: UIBarButtonItem) {
+  func refreshButtonTouchUpInside(_ sender: UIBarButtonItem) {
     fetchFeed()
   }
   
@@ -183,10 +183,10 @@ class MainViewController: UIViewController {
   
   - parameter sender: UIButton object
   */
-  func externalLinkButtonTouchUpInside(sender: UIButton) {
-    if let link = items[currentIndexPath.item].link, url = NSURL(string: link) {
+  func externalLinkButtonTouchUpInside(_ sender: UIButton) {
+    if let link = items[currentIndexPath.item].link, let url = URL(string: link) {
       // Update statusBarStyle
-      sharedApplication.statusBarStyle = UIStatusBarStyle.Default
+      sharedApplication.statusBarStyle = UIStatusBarStyle.default
       
       // Open Flickr page with SFSafariViewController
       presentSFSafariViewControllerWithURL(url)
@@ -212,15 +212,14 @@ class MainViewController: UIViewController {
       }.always { _ -> Void in
         SVProgressHUD.dismiss()
         
-      }.error { error -> Void in
+      }.catch { [weak self] error -> Void in
+        guard let strongSelf = self else { return }
         if let error = error as? FlickrError {
           // Show FlickrError description
-          TSMessage.showNotificationWithTitle("Error", subtitle: error.description, type: .Error)
-          
+          TSMessage.showNotification(in: strongSelf, title: "Error", subtitle: error.description, type: .error)
         } else {
           // Show unknown error from library or system
-          TSMessage.showNotificationWithTitle("Error", subtitle: self.unknownError, type: .Error)
-          
+          TSMessage.showNotification(in: strongSelf, title: "Error", subtitle: strongSelf.unknownError.description, type: .error)
         }
         
       }
@@ -233,18 +232,18 @@ class MainViewController: UIViewController {
   
   - parameter url: NSURL object
   */
-  func presentSFSafariViewControllerWithURL(url: NSURL) {
-    let safariViewController = SFSafariViewController(URL: url)
-    safariViewController.modalTransitionStyle = .CoverVertical
-    safariViewController.modalPresentationStyle = .OverFullScreen
+  func presentSFSafariViewControllerWithURL(_ url: URL) {
+    let safariViewController = SFSafariViewController(url: url)
+    safariViewController.modalTransitionStyle = .coverVertical
+    safariViewController.modalPresentationStyle = .overFullScreen
     safariViewController.delegate = self
-    self.presentViewController(safariViewController, animated: true, completion: nil)
+    self.present(safariViewController, animated: true, completion: nil)
   }
   
   
   // MARK: - Update externalLinkButton
   func updateExternalLinkButton() {
-    externalLinkButton.hidden = !externalLinkExist
+    externalLinkButton.isHidden = !externalLinkExist
   }
   
   
@@ -256,13 +255,13 @@ class MainViewController: UIViewController {
   - parameter animated: Should animate or not
   - parameter scrollPosition: Which side of cell to be aligned
   */
-  func selectThumbnailItemAtIndexPath(path: NSIndexPath, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .Left) {
+  func selectThumbnailItemAtIndexPath(_ path: IndexPath, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .left) {
     // Select cell
-    let selectedCell = thumbnailCollectionView.cellForItemAtIndexPath(path)
-    selectedCell?.selected = true
+    let selectedCell = thumbnailCollectionView.cellForItem(at: path)
+    selectedCell?.isSelected = true
     
     // Move to the selected cell
-    thumbnailCollectionView.selectItemAtIndexPath(path, animated: animated, scrollPosition: scrollPosition)
+    thumbnailCollectionView.selectItem(at: path, animated: animated, scrollPosition: scrollPosition)
     
     currentIndexPath = path
   }
@@ -274,14 +273,14 @@ class MainViewController: UIViewController {
    - parameter animated: Should animate or not
    - parameter scrollPosition: Which side of cell to be aligned
    */
-  func selectImageItemAtIndexPath(path: NSIndexPath, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .Left) {
-    imageCollectionView.selectItemAtIndexPath(path, animated: animated, scrollPosition: scrollPosition)
+  func selectImageItemAtIndexPath(_ path: IndexPath, animated: Bool = true, scrollPosition: UICollectionViewScrollPosition = .left) {
+    imageCollectionView.selectItem(at: path, animated: animated, scrollPosition: scrollPosition)
   }
   
   
   // MARK: - Orientation
-  override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-    super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+  override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+    super.viewWillTransition(to: size, with: coordinator)
     
     // Update flowlayout to support rotations
     imageCollectionView.collectionViewLayout.invalidateLayout()
@@ -293,12 +292,12 @@ class MainViewController: UIViewController {
     
     if dataSourceReady {
       mainView.layoutIfNeeded()
-      imageCollectionView.selectItemAtIndexPath(currentIndexPath, animated: false, scrollPosition: UICollectionViewScrollPosition.Left)
-      thumbnailCollectionView.selectItemAtIndexPath(currentIndexPath, animated: false, scrollPosition: UICollectionViewScrollPosition.Left)
+      imageCollectionView.selectItem(at: currentIndexPath, animated: false, scrollPosition: UICollectionViewScrollPosition.left)
+      thumbnailCollectionView.selectItem(at: currentIndexPath, animated: false, scrollPosition: UICollectionViewScrollPosition.left)
     }
   }
   
-  override func traitCollectionDidChange(previousTraitCollection: UITraitCollection?) {
+  override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
     super.traitCollectionDidChange(previousTraitCollection)
   }
   
@@ -325,18 +324,18 @@ extension MainViewController {
    
    - parameter notification: NSNotification object
   */
-  func reachabilityChangedHandler(notification: NSNotification) {
+  func reachabilityChangedHandler(_ notification: Notification) {
     // Just in case, notification is sent before this view is loaded. Usually, it doesn't happen.
-    if let reachability = notification.object as? Reachability where self.isViewLoaded() == true {
+    if let reachability = notification.object as? Reachability, self.isViewLoaded == true {
       // When internet connection is back and items is still unset, then, fetch feed.
-      if reachability.isReachable() {
+      if reachability.isReachable {
         if items.count == 0 {
           fetchFeed()
         }
       } else {
         // Avoid autoLayout background thread issue.
-        dispatch_async(dispatch_get_main_queue(), {
-          self.presentAlertControllerWithAlertStyle(title: AppData.errorTitle, message: ConnectionError.NoConnection.description)
+        DispatchQueue.main.async(execute: {
+          self.presentAlertControllerWithAlertStyle(title: AppData.errorTitle, message: ConnectionError.noConnection.description)
         })
       }
     }
@@ -346,7 +345,7 @@ extension MainViewController {
 
 // MARK: - ThumbnailManagerDelegate
 extension MainViewController: ThumbnailManagerDelegate {
-  func cellDidSelect(sender: ThumbnailManager, path: NSIndexPath) {
+  func cellDidSelect(_ sender: ThumbnailManager, path: IndexPath) {
     selectImageItemAtIndexPath(path)
     selectThumbnailItemAtIndexPath(path)
   }
@@ -355,18 +354,18 @@ extension MainViewController: ThumbnailManagerDelegate {
 
 // MARK: - SFSafariViewControllerDelegate
 extension MainViewController: SFSafariViewControllerDelegate {
-  func safariViewControllerDidFinish(controller: SFSafariViewController) {
+  func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
     // Update statusBarStyle
-    UIApplication.sharedApplication().statusBarStyle = UIStatusBarStyle.LightContent
+    UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
   }
 }
 
 
 // MARK: - UIScrollViewDelegate
 extension MainViewController: UIScrollViewDelegate {
-  func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+  func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
     let currentIndex = Int(imageCollectionView.contentOffset.x / imageCollectionView.frame.size.width)
-    let currentIndexPath = NSIndexPath(forItem: currentIndex, inSection: 0)
+    let currentIndexPath = IndexPath(item: currentIndex, section: 0)
     
     selectThumbnailItemAtIndexPath(currentIndexPath)
     updateExternalLinkButton()
@@ -380,16 +379,16 @@ extension MainViewController: UICollectionViewDelegate {}
 
 // MARK: - UICollectionViewDataSource
 extension MainViewController: UICollectionViewDataSource {
-  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
     return 1
   }
   
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return items.count
   }
   
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCellWithReuseIdentifier(Constants.Keys.imageCollectionCellId, forIndexPath: indexPath)
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.Keys.imageCollectionCellId, for: indexPath)
     
     if let cell = cell as? ImageCollectionViewCell {
       configureImageCollectionViewCellWithItem(cell, item: items[indexPath.row])
@@ -398,7 +397,7 @@ extension MainViewController: UICollectionViewDataSource {
     return cell
   }
   
-  private func configureImageCollectionViewCellWithItem(cell: ImageCollectionViewCell, item: FlickrItem) {
+  fileprivate func configureImageCollectionViewCellWithItem(_ cell: ImageCollectionViewCell, item: FlickrItem) {
     cell.setNeedsDisplay()
     cell.imagePath = item.originalImage
   }
@@ -407,21 +406,21 @@ extension MainViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 extension MainViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     return CGSize(width: collectionView.frame.size.width, height: collectionView.frame.size.height)
   }
   
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-    return UIEdgeInsetsZero
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    return UIEdgeInsets.zero
   }
   
   //The minimum space (measured in points) to apply between successive lines in a section.
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return 0
   }
   
   //The minimum space (measured in points) to apply between successive items in the lines of a section.
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
     return 0
   }
 }
