@@ -6,9 +6,9 @@ Flickr Viewer is a sample application that displays the photos of [Flickr](https
 
 ## Requirements
 * Ruby `2.2.3`
-* CocoaPods `0.39.0`
-* Xcode `7.2`
-* iOS `9.2`
+* CocoaPods `1.2.1`
+* Xcode `8.3.3`
+* iOS `10.2`
 * Apple ID (optional. If you build this app to your device, it is required.)
 * rbenv (optional)
 * Internet connection (optional, but you see no image but error message)
